@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - NGO</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="img/logo.png" alt="NGO Logo">
+                <h1>NGO</h1>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="actions.html">Nos actions</a></li>
+                <li><a href="join.html">Rejoindre</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Bienvenue chez NGO</h2>
+        <p>Ensemble, créons un monde meilleur</p>
+        <a href="join.html" class="btn">Rejoignez-nous</a>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Nos Actions Principales</h2>
+            <p>Découvrez comment nous faisons la différence</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <img src="img/education.jpg" alt="Éducation">
+                <div class="card-content">
+                    <h3>Éducation</h3>
+                    <p>Nous construisons des écoles et formons des enseignants pour assurer l'accès à l'éducation pour tous.</p>
+                    <a href="actions.html" class="btn">En savoir plus</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="img/health.jpg" alt="Santé">
+                <div class="card-content">
+                    <h3>Santé</h3>
+                    <p>Nous fournissons des soins médicaux essentiels et organisons des campagnes de sensibilisation.</p>
+                    <a href="actions.html" class="btn">En savoir plus</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="img/environment.jpg" alt="Environnement">
+                <div class="card-content">
+                    <h3>Environnement</h3>
+                    <p>Nous menons des projets de reforestation et de protection de l'environnement.</p>
+                    <a href="actions.html" class="btn">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Notre Impact</h2>
+            <p>Des chiffres qui parlent d'eux-mêmes</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3>50+</h3>
+                    <p>Projets réalisés</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>1000+</h3>
+                    <p>Bénévoles actifs</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>10000+</h3>
+                    <p>Personnes aidées</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Dernières Actualités</h2>
+            <p>Restez informé de nos dernières actions</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <img src="img/news1.jpg" alt="Actualité 1">
+                <div class="card-content">
+                    <h3>Nouvelle École Ouverte</h3>
+                    <p>Nous avons inauguré une nouvelle école dans la région de...</p>
+                    <a href="#" class="btn">Lire la suite</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="img/news2.jpg" alt="Actualité 2">
+                <div class="card-content">
+                    <h3>Campagne de Santé</h3>
+                    <p>Une campagne de vaccination a été menée avec succès...</p>
+                    <a href="#" class="btn">Lire la suite</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="img/news3.jpg" alt="Actualité 3">
+                <div class="card-content">
+                    <h3>Projet Environnemental</h3>
+                    <p>Plus de 1000 arbres ont été plantés dans le cadre de...</p>
+                    <a href="#" class="btn">Lire la suite</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Contactez-nous</h2>
+            <p>Nous sommes à votre écoute</p>
+        </div>
+        <div class="form-container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Nom</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn">Envoyer</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                    <li><i class="fas fa-envelope"></i> contact@ngo.org</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="actions.html">Nos actions</a></li>
+                    <li><a href="join.html">Rejoindre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Suivez-nous</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

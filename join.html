@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejoindre - NGO</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .join-content {
+            padding: 8rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .join-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .join-header h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .membership-benefits {
+            margin-top: 4rem;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .benefit-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .benefit-card i {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="img/logo.png" alt="NGO Logo">
+                <h1>NGO</h1>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="actions.html">Nos actions</a></li>
+                <li><a href="join.html" class="active">Rejoindre</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Rejoignez-nous</h2>
+        <p>Devenez bénévole et participez à nos actions</p>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Pourquoi Nous Rejoindre ?</h2>
+            <p>Faites partie d'une équipe engagée pour un monde meilleur</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Impact Social</h3>
+                    <p>Contribuez directement à des projets qui changent des vies et créent un impact positif dans la société.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Développement Personnel</h3>
+                    <p>Acquérez de nouvelles compétences et expériences tout en aidant les autres.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Communauté</h3>
+                    <p>Rejoignez une communauté de personnes partageant les mêmes valeurs et objectifs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Formulaire d'Inscription</h2>
+            <p>Remplissez le formulaire ci-dessous pour devenir bénévole</p>
+        </div>
+        <div class="form-container">
+            <form id="joinForm" class="join-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Prénom</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Nom</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="interests">Domaines d'intérêt</label>
+                    <select id="interests" name="interests" multiple required>
+                        <option value="education">Éducation</option>
+                        <option value="health">Santé</option>
+                        <option value="environment">Environnement</option>
+                        <option value="social">Action sociale</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="availability">Disponibilité</label>
+                    <select id="availability" name="availability" required>
+                        <option value="weekday">En semaine</option>
+                        <option value="weekend">Week-end</option>
+                        <option value="both">Les deux</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message (optionnel)</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn">Soumettre</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Questions Fréquentes</h2>
+            <p>Tout ce que vous devez savoir sur le bénévolat</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Quel est le temps minimum requis ?</h3>
+                    <p>Nous demandons un engagement minimum de 4 heures par semaine, mais nous sommes flexibles selon vos disponibilités.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Y a-t-il des frais d'inscription ?</h3>
+                    <p>Non, le bénévolat est entièrement gratuit. Nous fournissons même la formation nécessaire.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Quelles compétences sont requises ?</h3>
+                    <p>Aucune compétence particulière n'est requise. Nous valorisons l'enthousiasme et la motivation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                    <li><i class="fas fa-envelope"></i> contact@ngo.org</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="actions.html">Nos actions</a></li>
+                    <li><a href="join.html">Rejoindre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Suivez-nous</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Actions - NGO</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .actions-content {
+            padding: 8rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .actions-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .actions-header h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .action-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .action-content {
+            padding: 2rem;
+        }
+        
+        .action-content h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .action-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .action-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item h4 {
+            color: #3498db;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-item p {
+            color: #666;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="img/logo.png" alt="NGO Logo">
+                <h1>NGO</h1>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="actions.html" class="active">Nos actions</a></li>
+                <li><a href="join.html">Rejoindre</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Nos Actions</h2>
+        <p>Découvrez nos projets et initiatives pour un monde meilleur</p>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Nos Projets en Cours</h2>
+            <p>Des initiatives concrètes pour un impact positif</p>
+        </div>
+        <div class="grid">
+            <div class="card action-card">
+                <img src="img/action1.jpg" alt="Projet Éducation">
+                <div class="card-content">
+                    <h3>Éducation pour Tous</h3>
+                    <p>Nous construisons des écoles et formons des enseignants dans les zones rurales pour assurer l'accès à l'éducation pour tous les enfants.</p>
+                    <a href="#" class="btn">En savoir plus</a>
+                </div>
+            </div>
+            <div class="card action-card">
+                <img src="img/action2.jpg" alt="Projet Santé">
+                <div class="card-content">
+                    <h3>Santé et Bien-être</h3>
+                    <p>Nous fournissons des soins médicaux essentiels et organisons des campagnes de sensibilisation sur la santé dans les communautés défavorisées.</p>
+                    <a href="#" class="btn">En savoir plus</a>
+                </div>
+            </div>
+            <div class="card action-card">
+                <img src="img/action3.jpg" alt="Projet Environnement">
+                <div class="card-content">
+                    <h3>Protection de l'Environnement</h3>
+                    <p>Nous menons des projets de reforestation et de sensibilisation à la protection de l'environnement.</p>
+                    <a href="#" class="btn">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Nos Réalisations</h2>
+            <p>Un aperçu de notre impact sur le terrain</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Impact 2023</h3>
+                    <ul>
+                        <li>5 écoles construites</li>
+                        <li>1000 enfants scolarisés</li>
+                        <li>50 campagnes de santé</li>
+                        <li>10000 arbres plantés</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Témoignages</h3>
+                    <p>"Grâce à NGO, mes enfants peuvent maintenant aller à l'école et rêver d'un avenir meilleur." - Marie, mère de famille</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Comment Nous Aider</h2>
+            <p>Rejoignez-nous dans notre mission</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Faire un Don</h3>
+                    <p>Votre soutien financier nous permet de continuer nos actions sur le terrain.</p>
+                    <a href="#" class="btn">Faire un don</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Devenir Bénévole</h3>
+                    <p>Rejoignez notre équipe de bénévoles et participez à nos projets.</p>
+                    <a href="join.html" class="btn">Devenir bénévole</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                    <li><i class="fas fa-envelope"></i> contact@ngo.org</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="actions.html">Nos actions</a></li>
+                    <li><a href="join.html">Rejoindre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Suivez-nous</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

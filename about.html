@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À Propos - FIER</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .about-content {
+            padding: 8rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .about-section {
+            margin-bottom: 4rem;
+        }
+        
+        .about-section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        
+        .timeline-item {
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item h3 {
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="img/logo.png" alt="NGO Logo">
+                <h1>NGO</h1>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="about.html" class="active">À propos</a></li>
+                <li><a href="actions.html">Nos actions</a></li>
+                <li><a href="join.html">Rejoindre</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>À propos de nous</h2>
+        <p>Découvrez notre mission, notre vision et notre équipe dévouée</p>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Notre Mission</h2>
+            <p>Nous nous engageons à créer un impact positif dans la société à travers nos actions et initiatives.</p>
+        </div>
+        <div class="grid about-grid">
+            <div class="card">
+                <div class="card-content">
+                    <h3>Notre Vision</h3>
+                    <p>Nous aspirons à un monde où chaque individu a accès aux ressources nécessaires pour vivre dignement.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Nos Valeurs</h3>
+                    <p>Intégrité, transparence, innovation et impact social sont au cœur de nos actions.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h3>Notre Impact</h3>
+                    <p>Depuis notre création, nous avons touché des milliers de vies à travers nos programmes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Notre Équipe</h2>
+            <p>Des professionnels passionnés qui font la différence</p>
+        </div>
+        <div class="grid about-grid">
+            <div class="card team-member">
+                <img src="img/team1.jpg" alt="Membre de l'équipe">
+                <div class="card-content">
+                    <h3>Jean Dupont</h3>
+                    <p>Directeur Exécutif</p>
+                </div>
+            </div>
+            <div class="card team-member">
+                <img src="img/team2.jpg" alt="Membre de l'équipe">
+                <div class="card-content">
+                    <h3>Marie Martin</h3>
+                    <p>Directrice des Programmes</p>
+                </div>
+            </div>
+            <div class="card team-member">
+                <img src="img/team3.jpg" alt="Membre de l'équipe">
+                <div class="card-content">
+                    <h3>Pierre Durand</h3>
+                    <p>Coordinateur des Projets</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                    <li><i class="fas fa-envelope"></i> contact@ngo.org</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <ul>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="actions.html">Nos actions</a></li>
+                    <li><a href="join.html">Rejoindre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Suivez-nous</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

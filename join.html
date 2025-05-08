@@ -4,59 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejoindre - NGO</title>
+    <title>Rejoindre - FIER</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        .join-hero {
+            height: 50vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 2rem;
+        }
+        
+        .join-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .join-hero p {
+            font-size: 1.5rem;
+            animation: fadeInUp 1s ease 0.2s;
+            animation-fill-mode: both;
+        }
+        
         .join-content {
-            padding: 8rem 2rem 4rem;
+            padding: 6rem 2rem 4rem;
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        .join-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        
-        .join-header h1 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-        
         .form-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(52, 152, 219, 0.1);
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #3498db, #2ecc71, #e74c3c, #f1c40f);
+            animation: gradientMove 3s ease infinite;
+        }
+        
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            position: relative;
+            z-index: 1;
         }
         
         .form-group {
             margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             color: #2c3e50;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2c3e50;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         
-        .form-group textarea {
-            height: 150px;
-            resize: vertical;
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: #3498db;
+            background: #ffffff;
         }
         
         .form-group input:focus,
@@ -64,208 +129,672 @@
         .form-group textarea:focus {
             outline: none;
             border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            transform: translateY(-2px);
+            background: #ffffff;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        .required-field::after {
+            content: '*';
+            color: #e74c3c;
+            margin-left: 4px;
+            font-weight: bold;
         }
         
         .submit-btn {
-            background-color: #3498db;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
             color: white;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
         }
         
         .submit-btn:hover {
-            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(45deg, #2980b9, #27ae60);
+        }
+        
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+        
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.05);
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+            font-weight: 500;
+            padding-left: 0.5rem;
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .form-group.error .error-message {
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            75% {
+                transform: translateX(5px);
+            }
+        }
+        
+        .form-group.success input,
+        .form-group.success select,
+        .form-group.success textarea {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.05);
+        }
+        
+        .success-message {
+            color: #2ecc71;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+            font-weight: 500;
+            padding-left: 0.5rem;
+            border-left: 3px solid #2ecc71;
+        }
+        
+        .form-group.success .success-message {
+            display: block;
+        }
+        /* Ajout d'un effet de brillance sur les champs au focus */
+        
+        .form-group input:focus::after,
+        .form-group select:focus::after,
+        .form-group textarea:focus::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            pointer-events: none;
+        }
+        /* Style personnalisé pour le select */
+        
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+            padding-right: 3rem;
+            cursor: pointer;
+        }
+        
+        .form-group select:hover {
+            background-color: #f8f9fa;
+        }
+        /* Style pour le textarea */
+        
+        .form-group textarea {
+            min-height: 150px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+        /* Animation de chargement pour le bouton submit */
+        
+        .submit-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+        
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin: -10px 0 0 -10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
         
         .membership-benefits {
-            margin-top: 4rem;
+            margin-top: 6rem;
+            text-align: center;
+        }
+        
+        .membership-benefits h2 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .membership-benefits h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
         }
         
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
         }
         
         .benefit-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .benefit-card:hover::before {
+            transform: scaleX(1);
         }
         
         .benefit-card i {
-            font-size: 2.5rem;
-            color: #3498db;
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .benefit-card h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
             margin-bottom: 1rem;
+        }
+        
+        .benefit-card p {
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+        
+        @media (max-width: 768px) {
+            .join-hero h1 {
+                font-size: 2.5rem;
+            }
+            .join-hero p {
+                font-size: 1.2rem;
+            }
+            .form-container {
+                padding: 2rem;
+                margin: 0 1rem;
+                border-radius: 15px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 1rem;
+            }
+            .submit-btn {
+                padding: 1rem 2rem;
+            }
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* --- HEADER STYLES FROM index.html --- */
+        
+        header {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.98));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(52, 152, 219, 0.1);
+            height: 80px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3%;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.8rem;
+            text-align: left;
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            margin-right: 1.2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1a73e8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid #1a73e8;
+            padding: 3px;
+        }
+        
+        .logo-texts {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+        
+        .logo-acronym {
+            font-size: 0.95rem;
+            color: #1a73e8;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0;
+            background: none;
+            line-height: 1.2;
+            max-width: 220px;
+            word-break: break-word;
+        }
+        
+        .founder-name {
+            font-size: 0.9rem;
+            color: #000000;
+            margin: 0;
+            font-weight: 700;
+            padding: 0;
+            background: none;
+            line-height: 1.2;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0.8rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            align-items: center;
+        }
+        
+        .nav-links li a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #1a73e8;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover {
+            color: #1557b0;
+            background: rgba(26, 115, 232, 0.05);
+        }
+        
+        .nav-links li a:hover::after {
+            width: 80%;
+        }
+        
+        .nav-links li a.active {
+            color: #1557b0;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        .nav-links li a.active::after {
+            width: 80%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #1a73e8;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle:hover {
+            background: rgba(26, 115, 232, 0.05);
+            color: #1557b0;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                height: 70px;
+            }
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.2rem;
+                margin-right: 0.5rem;
+            }
+            .logo {
+                font-size: 1.8rem;
+            }
+            .logo img {
+                width: 45px;
+                height: 40px;
+            }
+            .logo-acronym {
+                font-size: 0.8rem;
+                max-width: 140px;
+            }
+            .founder-name {
+                font-size: 0.75rem;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                gap: 0.4rem;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            .nav-links li a {
+                font-size: 1rem;
+                padding: 0.3rem 0.6rem;
+            }
+        }
+        
+        main {
+            margin-top: 80px;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <nav class="navbar">
-            <div class="logo">
-                <img src="img/logo.png" alt="NGO Logo">
-                <h1>NGO</h1>
+        <nav>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="img/logo.jpg" alt="ONG Logo">
+                </div>
+                <div class="logo-texts">
+                    <div class="logo-acronym">FRATERNITÉ IVOIRIENNE ET RÉPUBLICAINE</div>
+                    <div class="founder-name">Fondée par Monsieur JEAN BONIN</div>
+                </div>
             </div>
-            <div class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </div>
+
             <ul class="nav-links">
                 <li><a href="index.html">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="actions.html">Nos actions</a></li>
-                <li><a href="join.html" class="active">Rejoindre</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="actions.html">Nos Actions</a></li>
+                <li><a href="join.html">Nous Rejoindre</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero">
-        <h2>Rejoignez-nous</h2>
-        <p>Devenez bénévole et participez à nos actions</p>
-    </section>
+    <!-- <section class="join-hero">
+        <div class="hero-content">
+            <h1>Rejoignez FIER</h1>
+            <p>Devenez membre de notre organisation et contribuez à notre mission</p>
+        </div>
+    </section> -->
 
-    <section class="section">
-        <div class="section-title">
-            <h2>Pourquoi Nous Rejoindre ?</h2>
-            <p>Faites partie d'une équipe engagée pour un monde meilleur</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <div class="card-content">
-                    <h3>Impact Social</h3>
-                    <p>Contribuez directement à des projets qui changent des vies et créent un impact positif dans la société.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content">
-                    <h3>Développement Personnel</h3>
-                    <p>Acquérez de nouvelles compétences et expériences tout en aidant les autres.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content">
-                    <h3>Communauté</h3>
-                    <p>Rejoignez une communauté de personnes partageant les mêmes valeurs et objectifs.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="section-title">
-            <h2>Formulaire d'Inscription</h2>
-            <p>Remplissez le formulaire ci-dessous pour devenir bénévole</p>
-        </div>
-        <div class="form-container">
-            <form id="joinForm" class="join-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName">Prénom</label>
-                        <input type="text" id="firstName" name="firstName" required>
+    <main class="join-content">
+        <div class="form-container animate-on-scroll">
+            <form action="process_form.php" method="POST" class="join-form">
+                <h3 class="form-title">Veuillez renseigner ce formulaire pour rejoindre FIER</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="Civilite">Civilité</label>
+                        <select id="Civilite" name="Civilite" required>
+                            <option value="">CHOISIR</option>
+                            <option value="M">M</option>
+                            <option value="Mme">Mme</option>
+                            <option value="Mmelle">Mmelle</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="lastName">Nom</label>
-                        <input type="text" id="lastName" name="lastName" required>
+                        <label for="Nom">Nom</label>
+                        <input type="text" placeholder="Entrez votre nom" name="Nom" id="Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Prenom">Prénoms</label>
+                        <input name="Prenom" id="Prenom" placeholder="Entrez vos prénoms" type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Niveau">Niveau</label>
+                        <select id="Niveau" name="Niveau" required>
+                            <option value="">CHOISIR</option>
+                            <option value="Aucun">Aucun</option>
+                            <option value="Primaire">Primaire</option>
+                            <option value="Secondaire">Secondaire</option>
+                            <option value="Bac+1">Bac+1</option>
+                            <option value="Bac+2">Bac+2</option>
+                            <option value="Bac+3">Bac+3</option>
+                            <option value="Bac+4">Bac+4</option>
+                            <option value="Bac+5">Bac+5</option>
+                            <option value="Bac+6">Bac+5+</option>
+                            <option value="Bac+8">Bac+8</option>
+                            <option value="Bac+8+">Bac+8+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Diplome">Diplôme</label>
+                        <select id="Diplome" name="Diplome" required>
+                            <option value="">CHOISIR</option>
+                            <option value="Aucun">Aucun</option>
+                            <option value="CEPE">CEPE</option>
+                            <option value="BEPC">BEPC</option>
+                            <option value="CAP">CAP</option>
+                            <option value="BEP">BEP</option>
+                            <option value="BT">BT</option>
+                            <option value="BAC">BAC</option>
+                            <option value="DUT">DUT</option>
+                            <option value="BTS">BTS</option>
+                            <option value="Licence">Licence</option>
+                            <option value="Maîtrise">Maîtrise</option>
+                            <option value="Master">Master</option>
+                            <option value="Ingénieur">Ingénieur</option>
+                            <option value="MBA">MBA</option>
+                            <option value="DEA/Equivalent">DEA/Equivalent</option>
+                            <option value="Doctorat">Doctorat</option>
+                            <option value="HDR(Post-doctorat)">HDR(Post-doctorat)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Specialite">Spécialité</label>
+                        <input name="Specialite" id="Specialite" placeholder="Entrez votre spécialité" type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Fonction_actuelle">Fonction actuelle</label>
+                        <input name="Fonction_actuelle" id="Fonction_actuelle" placeholder="Fonction actuelle" type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Telephone">Téléphone</label>
+                        <input name="Telephone" id="Telephone" placeholder="Entrez votre téléphone" type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input name="Email" id="Email" placeholder="Entrez votre email" type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Pays">Pays habité</label>
+                        <select id="Pays" name="Pays" required>
+                            <option value="">CHOISIR</option>
+                            <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                            <option value="France">France</option>
+                            <option value="Burkina Faso">Burkina Faso</option>
+                            <option value="Sénégal">Sénégal</option>
+                            <option value="Mali">Mali</option>
+                            <option value="Bénin">Bénin</option>
+                            <option value="Togo">Togo</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Ville">Ville/Commune habitée</label>
+                        <input name="Ville" id="Ville" placeholder="Entrez votre ville ou commune habitée" type="text" required>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Téléphone</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="interests">Domaines d'intérêt</label>
-                    <select id="interests" name="interests" multiple required>
-                        <option value="education">Éducation</option>
-                        <option value="health">Santé</option>
-                        <option value="environment">Environnement</option>
-                        <option value="social">Action sociale</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="availability">Disponibilité</label>
-                    <select id="availability" name="availability" required>
-                        <option value="weekday">En semaine</option>
-                        <option value="weekend">Week-end</option>
-                        <option value="both">Les deux</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message (optionnel)</label>
-                    <textarea id="message" name="message" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn">Soumettre</button>
+                <button type="submit" class="submit-btn">
+                    <span>Soumettre</span>
+                </button>
             </form>
         </div>
-    </section>
 
-    <section class="section">
-        <div class="section-title">
-            <h2>Questions Fréquentes</h2>
-            <p>Tout ce que vous devez savoir sur le bénévolat</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <div class="card-content">
-                    <h3>Quel est le temps minimum requis ?</h3>
-                    <p>Nous demandons un engagement minimum de 4 heures par semaine, mais nous sommes flexibles selon vos disponibilités.</p>
+        <section class="membership-benefits animate-on-scroll">
+            <h2>Avantages de l'Adhésion</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Réseau</h3>
+                    <p>Rejoignez une communauté engagée et développez votre réseau professionnel.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Impact</h3>
+                    <p>Contribuez directement à des projets qui font la différence dans notre société.</p>
+                </div>
+                <div class="benefit-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Développement</h3>
+                    <p>Bénéficiez de formations et d'opportunités de développement personnel.</p>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-content">
-                    <h3>Y a-t-il des frais d'inscription ?</h3>
-                    <p>Non, le bénévolat est entièrement gratuit. Nous fournissons même la formation nécessaire.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content">
-                    <h3>Quelles compétences sont requises ?</h3>
-                    <p>Aucune compétence particulière n'est requise. Nous valorisons l'enthousiasme et la motivation.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Contact</h3>
-                <ul>
-                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
-                    <li><i class="fas fa-envelope"></i> contact@ngo.org</li>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
-                </ul>
+                <h3 class="company-name">FIER</h3>
+                <p>Email: contact@fier.org</p>
+                <p>Téléphone: +33 1 23 45 67 89</p>
+                <p>Adresse: COCODY ANGRE (Cité ZINSOU)</p>
             </div>
             <div class="footer-section">
-                <h3>Liens Rapides</h3>
-                <ul>
-                    <li><a href="about.html">À propos</a></li>
-                    <li><a href="actions.html">Nos actions</a></li>
-                    <li><a href="join.html">Rejoindre</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Suivez-nous</h3>
+                <h3>Suivez-Nous</h3>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 FIER. Tous droits réservés.</p>
         </div>
     </footer>
 

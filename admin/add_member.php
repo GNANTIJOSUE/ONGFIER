@@ -26,23 +26,23 @@ try {
     }
 
     // Récupérer et valider les données du formulaire
-    $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
-    $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $telephone = filter_input(INPUT_POST, 'telephone', FILTER_SANITIZE_STRING);
-    $whatsapp = filter_input(INPUT_POST, 'whatsapp', FILTER_SANITIZE_STRING);
-    $pays = filter_input(INPUT_POST, 'pays', FILTER_SANITIZE_STRING);
-    $ville = filter_input(INPUT_POST, 'ville', FILTER_SANITIZE_STRING);
-    $quartier = filter_input(INPUT_POST, 'quartier', FILTER_SANITIZE_STRING);
-    $adresse = filter_input(INPUT_POST, 'adresse', FILTER_SANITIZE_STRING);
-    $type_membre = filter_input(INPUT_POST, 'type_membre', FILTER_SANITIZE_STRING);
-    $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+    $civilite = filter_input(INPUT_POST, 'Civilite', FILTER_SANITIZE_STRING);
+    $nom = filter_input(INPUT_POST, 'Nom', FILTER_SANITIZE_STRING);
+    $prenom = filter_input(INPUT_POST, 'Prenom', FILTER_SANITIZE_STRING);
+    $niveau = filter_input(INPUT_POST, 'Niveau', FILTER_SANITIZE_STRING);
+    $diplome = filter_input(INPUT_POST, 'Diplome', FILTER_SANITIZE_STRING);
+    $specialite = filter_input(INPUT_POST, 'Specialite', FILTER_SANITIZE_STRING);
+    $fonction_actuelle = filter_input(INPUT_POST, 'Fonction_actuelle', FILTER_SANITIZE_STRING);
+    $telephone = filter_input(INPUT_POST, 'Telephone', FILTER_SANITIZE_STRING);
+    $email = filter_input(INPUT_POST, 'Email', FILTER_SANITIZE_EMAIL);
+    $pays = filter_input(INPUT_POST, 'Pays', FILTER_SANITIZE_STRING);
+    $ville = filter_input(INPUT_POST, 'Ville', FILTER_SANITIZE_STRING);
 
     // Log des données reçues
     error_log('Données reçues: ' . print_r($_POST, true));
 
     // Validation des champs requis
-    if (!$nom || !$prenom || !$email || !$telephone || !$pays || !$ville || !$quartier || !$adresse || !$type_membre) {
+    if (!$civilite || !$nom || !$prenom || !$niveau || !$diplome || !$specialite || !$fonction_actuelle || !$telephone || !$email || !$pays || !$ville) {
         throw new Exception('Tous les champs obligatoires doivent être remplis');
     }
 
@@ -60,12 +60,12 @@ try {
         // Préparer la requête d'insertion
         $sql = "
             INSERT INTO membres (
-                nom, prenom, email, telephone, whatsapp, 
-                pays, ville, quartier, adresse, type_membre, message, 
+                civilite, nom, prenom, niveau, diplome, specialite, 
+                fonction_actuelle, telephone, email, pays, ville,
                 date_inscription, statut
             ) VALUES (
-                :nom, :prenom, :email, :telephone, :whatsapp, 
-                :pays, :ville, :quartier, :adresse, :type_membre, :message, 
+                :civilite, :nom, :prenom, :niveau, :diplome, :specialite,
+                :fonction_actuelle, :telephone, :email, :pays, :ville,
                 NOW(), 'en_attente'
             )
         ";
@@ -74,17 +74,17 @@ try {
         
         // Exécuter la requête avec les paramètres nommés
         $result = $stmt->execute([
+            ':civilite' => $civilite,
             ':nom' => $nom,
             ':prenom' => $prenom,
-            ':email' => $email,
+            ':niveau' => $niveau,
+            ':diplome' => $diplome,
+            ':specialite' => $specialite,
+            ':fonction_actuelle' => $fonction_actuelle,
             ':telephone' => $telephone,
-            ':whatsapp' => $whatsapp,
+            ':email' => $email,
             ':pays' => $pays,
-            ':ville' => $ville,
-            ':quartier' => $quartier,
-            ':adresse' => $adresse,
-            ':type_membre' => $type_membre,
-            ':message' => $message
+            ':ville' => $ville
         ]);
 
         if (!$result) {

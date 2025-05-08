@@ -176,39 +176,67 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Gestion du formulaire d'inscription
-    const joinForm = document.querySelector('#joinForm');
+    const joinForm = document.querySelector('.join-form');
     if (joinForm) {
-        joinForm.addEventListener('submit', function(e) {
+        const submitBtn = joinForm.querySelector('.submit-btn');
+
+        joinForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Récupérer les données du formulaire
-            const formData = new FormData(this);
-            
-            // Afficher un message de chargement
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Inscription en cours...';
+            // Désactiver le bouton et afficher le loader
             submitBtn.disabled = true;
-
-            // Simuler l'envoi du formulaire (à remplacer par votre logique d'envoi réelle)
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+            submitBtn.classList.add('loading');
+            
+            // Récupérer les données du formulaire
+            const formData = new FormData(joinForm);
+            
+            try {
+                const response = await fetch('process_form.php', {
+                    method: 'POST',
+                    body: formData
+                });
                 
-                // Afficher un message de succès
-                const successMessage = document.createElement('div');
-                successMessage.className = 'success-message';
-                successMessage.textContent = 'Votre inscription a été enregistrée avec succès !';
-                joinForm.appendChild(successMessage);
-
-                // Réinitialiser le formulaire
-                joinForm.reset();
-
-                // Supprimer le message après 3 secondes
-                setTimeout(() => {
-                    successMessage.remove();
-                }, 3000);
-            }, 1500);
+                const result = await response.json();
+                
+                // Réinitialiser les messages d'erreur précédents
+                document.querySelectorAll('.error-message').forEach(el => el.remove());
+                
+                if (result.success) {
+                    // Afficher le message de succès
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'success-message';
+                    successMessage.textContent = result.message;
+                    joinForm.prepend(successMessage);
+                    
+                    // Réinitialiser le formulaire
+                    joinForm.reset();
+                    
+                    // Rediriger vers la page de succès après 2 secondes
+                    setTimeout(() => {
+                        window.location.href = 'success.html';
+                    }, 2000);
+                } else {
+                    // Afficher les erreurs
+                    if (result.errors) {
+                        result.errors.forEach(error => {
+                            const errorDiv = document.createElement('div');
+                            errorDiv.className = 'error-message';
+                            errorDiv.textContent = error;
+                            joinForm.prepend(errorDiv);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = 'Une erreur est survenue lors de l\'envoi du formulaire.';
+                joinForm.prepend(errorDiv);
+            } finally {
+                // Réactiver le bouton et retirer le loader
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+            }
         });
     }
 });

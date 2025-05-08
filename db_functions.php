@@ -5,21 +5,28 @@ require_once 'config.php';
 function add_member($data) {
     global $conn;
     try {
-        $stmt = $conn->prepare("INSERT INTO membres (nom, prenom, email, telephone, whatsapp, pays, ville, quartier, adresse, type_membre, message, date_inscription) 
-                               VALUES (:nom, :prenom, :email, :telephone, :whatsapp, :pays, :ville, :quartier, :adresse, :type_membre, :message, NOW())");
+        $stmt = $conn->prepare("INSERT INTO membres (
+            civilite, nom, prenom, niveau, diplome, specialite, 
+            fonction_actuelle, telephone, email, pays, ville, 
+            date_inscription, statut
+        ) VALUES (
+            :civilite, :nom, :prenom, :niveau, :diplome, :specialite,
+            :fonction_actuelle, :telephone, :email, :pays, :ville,
+            NOW(), 'en_attente'
+        )");
         
         $stmt->execute([
+            ':civilite' => $data['civilite'],
             ':nom' => $data['nom'],
             ':prenom' => $data['prenom'],
-            ':email' => $data['email'],
+            ':niveau' => $data['niveau'],
+            ':diplome' => $data['diplome'],
+            ':specialite' => $data['specialite'],
+            ':fonction_actuelle' => $data['fonction_actuelle'],
             ':telephone' => $data['telephone'],
-            ':whatsapp' => $data['whatsapp'],
+            ':email' => $data['email'],
             ':pays' => $data['pays'],
-            ':ville' => $data['ville'],
-            ':quartier' => $data['quartier'],
-            ':adresse' => $data['adresse'],
-            ':type_membre' => $data['type_membre'],
-            ':message' => $data['message']
+            ':ville' => $data['ville']
         ]);
         
         return $conn->lastInsertId();

@@ -727,7 +727,7 @@ if (isSuperAdmin()) {
             </div>
             <ul class="sidebar-menu">
                 <li><a href="#" class="active"><i class="fas fa-home"></i> Tableau de bord</a></li>
-                <li><a href="#"><i class="fas fa-users"></i> Membres</a></li>
+                <li><a href="members.php"><i class="fas fa-users"></i> Membres</a></li>
                 <li><a href="#"><i class="fas fa-newspaper"></i> Actualités</a></li>
                 <li><a href="#"><i class="fas fa-calendar-alt"></i> Événements</a></li>
                 <li><a href="#"><i class="fas fa-image"></i> Galerie</a></li>
@@ -772,10 +772,11 @@ if (isSuperAdmin()) {
                 </button>
                 <div class="search-container">
                     <div class="search-input-group">
-                        <input type="text" class="search-input" id="memberSearch" placeholder="Rechercher un membre par nom...">
+                        <input type="text" class="search-input" id="memberSearch" 
+                               placeholder="Rechercher par nom, prénom ou ville...">
                         <button class="search-btn" onclick="searchMembers()">
                             <i class="fas fa-search"></i>
-                            Exécuter
+                            Rechercher
                         </button>
                     </div>
                     <div class="filter-container">
@@ -793,8 +794,9 @@ if (isSuperAdmin()) {
                                 <th>Prénom</th>
                                 <th>Email</th>
                                 <th>Téléphone</th>
-                                <th>Type</th>
+                                <th>Fonction actuelle</th>
                                 <th>Statut</th>
+                                <th>Ville</th>
                                 <th>Date d'inscription</th>
                                 <th>Actions</th>
                             </tr>
@@ -829,15 +831,15 @@ if (isSuperAdmin()) {
                                     echo '<tr><td colspan="9" class="error-message">Aucun membre trouvé dans la base de données</td></tr>';
                                 } else {
                                     while ($member = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        echo "<!-- Membre trouvé : " . print_r($member, true) . " -->";
                                         echo '<tr>';
                                         echo '<td>' . htmlspecialchars($member['id']) . '</td>';
                                         echo '<td>' . htmlspecialchars($member['nom']) . '</td>';
                                         echo '<td>' . htmlspecialchars($member['prenom']) . '</td>';
                                         echo '<td>' . htmlspecialchars($member['email']) . '</td>';
                                         echo '<td>' . htmlspecialchars($member['telephone']) . '</td>';
-                                        echo '<td>' . htmlspecialchars($member['type_membre']) . '</td>';
+                                        echo '<td>' . htmlspecialchars($member['fonction_actuelle'] ?? 'Non spécifié') . '</td>';
                                         echo '<td><span class="status-badge status-' . htmlspecialchars($member['statut']) . '">' . htmlspecialchars($member['statut']) . '</span></td>';
+                                        echo '<td>' . htmlspecialchars($member['ville']) . '</td>';
                                         echo '<td>' . date('d/m/Y H:i', strtotime($member['date_inscription'])) . '</td>';
                                         echo '<td>
                                             <button class="edit-btn" onclick="openEditMemberModal(' . $member['id'] . ')">
@@ -861,16 +863,17 @@ if (isSuperAdmin()) {
                 </div>
             </div>
 
-            <?php if (isSuperAdmin()): ?>
+            <!-- Section des administrateurs -->
             <div class="content-section">
-                <h2>Gestion des Administrateurs</h2>
-                <a href="create_admin.php" class="add-btn">
-                    <i class="fas fa-user-plus"></i> Créer un nouvel administrateur
-                </a>
+                <h2 class="section-title">Gestion des Administrateurs</h2>
+                <button class="add-btn" onclick="openAddAdminModal()">
+                    <i class="fas fa-user-plus"></i> Ajouter un administrateur
+                </button>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Nom</th>
                                 <th>Email</th>
                                 <th>Rôle</th>
@@ -879,36 +882,38 @@ if (isSuperAdmin()) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($admins as $admin): ?>
-                            <tr>
-                                <td>
-                                    <?php echo htmlspecialchars($admin['name']); ?>
-                                </td>
-                                <td>
-                                    <?php echo htmlspecialchars($admin['email']); ?>
-                                </td>
-                                <td>
-                                    <span class="role-badge <?php echo $admin['role'] === 'super_admin' ? 'super-admin' : 'admin'; ?>">
-                                    <?php echo $admin['role'] === 'super_admin' ? 'Super Admin' : 'Admin'; ?>
-                                </span>
-                                </td>
-                                <td>
-                                    <?php echo date('d/m/Y', strtotime($admin['created_at'])); ?>
-                                </td>
-                                <td>
-                                    <?php if ($admin['role'] !== 'super_admin'): ?>
-                                    <button class="action-btn delete-btn" data-admin-id="<?php echo $admin['id']; ?>" data-admin-name="<?php echo htmlspecialchars($admin['name']); ?>">
-                                        Supprimer
-                                    </button>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
+                            <?php
+                            try {
+                                $stmt = $pdo->query("SELECT * FROM admins ORDER BY created_at DESC");
+                                while ($admin = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo '<tr>';
+                                    echo '<td>' . htmlspecialchars($admin['id']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($admin['name']) . '</td>';
+                                    echo '<td>' . htmlspecialchars($admin['email']) . '</td>';
+                                    echo '<td><span class="role-badge ' . ($admin['role'] === 'super_admin' ? 'super-admin' : 'admin') . '">';
+                                    echo $admin['role'] === 'super_admin' ? 'Super Admin' : 'Admin';
+                                    echo '</span></td>';
+                                    echo '<td>' . date('d/m/Y H:i', strtotime($admin['created_at'])) . '</td>';
+                                    echo '<td>';
+                                    if ($admin['role'] !== 'super_admin') {
+                                        echo '<button class="edit-btn" onclick="openEditAdminModal(' . $admin['id'] . ')">
+                                                <i class="fas fa-edit"></i>
+                                              </button>';
+                                        echo '<button class="delete-btn" onclick="deleteAdmin(' . $admin['id'] . ', \'' . htmlspecialchars($admin['name']) . '\')">
+                                                <i class="fas fa-trash"></i>
+                                              </button>';
+                                    }
+                                    echo '</td>';
+                                    echo '</tr>';
+                                }
+                            } catch (PDOException $e) {
+                                echo '<tr><td colspan="6" class="error-message">Erreur lors de la récupération des administrateurs</td></tr>';
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <?php endif; ?>
         </main>
     </div>
 
@@ -947,65 +952,107 @@ if (isSuperAdmin()) {
             <span class="close" onclick="closeAddMemberModal()">&times;</span>
             <h2>Inscription d'un nouveau membre</h2>
             <form id="addMemberForm" method="POST">
-                <div class="form-group">
-                    <label for="nom">Nom</label>
-                    <input type="text" id="nom" name="nom" required maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" name="prenom" required maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required maxlength="100">
-                </div>
-                <div class="form-group">
-                    <label for="telephone">Téléphone</label>
-                    <input type="tel" id="telephone" name="telephone" required maxlength="20">
-                </div>
-                <div class="form-group">
-                    <label for="whatsapp">WhatsApp (Optionnel)</label>
-                    <input type="tel" id="whatsapp" name="whatsapp" maxlength="20">
-                </div>
-                <div class="form-group">
-                    <label for="pays">Pays de Résidence</label>
-                    <input type="text" id="pays" name="pays" required maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label for="ville">Ville de Résidence</label>
-                    <input type="text" id="ville" name="ville" required maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label for="quartier">Quartier/Commune</label>
-                    <input type="text" id="quartier" name="quartier" required maxlength="100">
-                </div>
-                <div class="form-group full-width">
-                    <label for="adresse">Adresse Complète</label>
-                    <textarea id="adresse" name="adresse" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="type_membre">Type de Membre</label>
-                    <select id="type_membre" name="type_membre" required>
-                        <option value="">Sélectionnez un type</option>
-                        <option value="volontaire">Volontaire</option>
-                        <option value="donateur">Donateur</option>
-                        <option value="membre_actif">Membre Actif</option>
-                    </select>
-                </div>
-                <div class="form-group full-width">
-                    <label for="message">Message (Optionnel)</label>
-                    <textarea id="message" name="message"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="cancel-btn" onclick="closeAddMemberModal()">
-                        Annuler
-                    </button>
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-user-plus"></i>
-                        Inscrire le membre
-                    </button>
-                </div>
-            </form>
+            <div class="form-group full-width">
+                <label for="Civilite" class="required-field">Civilité</label>
+                <select id="Civilite" name="Civilite" required>
+                    <option value="">CHOISIR</option>
+                    <option value="M">M</option>
+                    <option value="Mme">Mme</option>
+                    <option value="Mmelle">Mmelle</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Nom" class="required-field">Nom</label>
+                <input type="text" id="Nom" name="Nom" required placeholder="Entrez votre nom">
+            </div>
+            <div class="form-group">
+                <label for="Prenom" class="required-field">Prénoms</label>
+                <input type="text" id="Prenom" name="Prenom" required placeholder="Entrez vos prénoms">
+            </div>
+            <div class="form-group">
+                <label for="Niveau" class="required-field">Niveau</label>
+                <select id="Niveau" name="Niveau" required>
+                    <option value="">CHOISIR</option>
+                    <option value="Aucun">Aucun</option>
+                    <option value="Primaire">Primaire</option>
+                    <option value="Secondaire">Secondaire</option>
+                    <option value="Bac+1">Bac+1</option>
+                    <option value="Bac+2">Bac+2</option>
+                    <option value="Bac+3">Bac+3</option>
+                    <option value="Bac+4">Bac+4</option>
+                    <option value="Bac+5">Bac+5</option>
+                    <option value="Bac+6">Bac+5+</option>
+                    <option value="Bac+8">Bac+8</option>
+                    <option value="Bac+8+">Bac+8+</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Diplome" class="required-field">Diplôme</label>
+                <select id="Diplome" name="Diplome" required>
+                    <option value="">CHOISIR</option>
+                    <option value="Aucun">Aucun</option>
+                    <option value="CEPE">CEPE</option>
+                    <option value="BEPC">BEPC</option>
+                    <option value="CAP">CAP</option>
+                    <option value="BEP">BEP</option>
+                    <option value="BT">BT</option>
+                    <option value="BAC">BAC</option>
+                    <option value="DUT">DUT</option>
+                    <option value="BTS">BTS</option>
+                    <option value="Licence">Licence</option>
+                    <option value="Maîtrise">Maîtrise</option>
+                    <option value="Master">Master</option>
+                    <option value="Ingénieur">Ingénieur</option>
+                    <option value="MBA">MBA</option>
+                    <option value="DEA/Equivalent">DEA/Equivalent</option>
+                    <option value="Doctorat">Doctorat</option>
+                    <option value="HDR(Post-doctorat)">HDR(Post-doctorat)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Specialite" class="required-field">Spécialité</label>
+                <input type="text" id="Specialite" name="Specialite" required placeholder="Entrez votre spécialité">
+            </div>
+            <div class="form-group">
+                <label for="Fonction_actuelle" class="required-field">Fonction actuelle</label>
+                <input type="text" id="Fonction_actuelle" name="Fonction_actuelle" required placeholder="Fonction actuelle">
+            </div>
+            <div class="form-group">
+                <label for="Telephone" class="required-field">Téléphone</label>
+                <input type="text" id="Telephone" name="Telephone" required placeholder="Entrez votre téléphone">
+            </div>
+            <div class="form-group">
+                <label for="Email" class="required-field">Email</label>
+                <input type="email" id="Email" name="Email" required placeholder="Entrez votre email">
+            </div>
+            <div class="form-group">
+                <label for="Pays" class="required-field">Pays habité</label>
+                <select id="Pays" name="Pays" required>
+                    <option value="">CHOISIR</option>
+                    <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                    <option value="France">France</option>
+                    <option value="Burkina Faso">Burkina Faso</option>
+                    <option value="Sénégal">Sénégal</option>
+                    <option value="Mali">Mali</option>
+                    <option value="Bénin">Bénin</option>
+                    <option value="Togo">Togo</option>
+                    <option value="Autre">Autre</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Ville" class="required-field">Ville/Commune habitée</label>
+                <input type="text" id="Ville" name="Ville" required placeholder="Entrez votre ville ou commune habitée">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" onclick="closeAddMemberModal()">
+                    Annuler
+                </button>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus"></i>
+                    Inscrire le membre
+                </button>
+            </div>
+        </form>
         </div>
     </div>
 
@@ -1017,64 +1064,106 @@ if (isSuperAdmin()) {
             <form id="editMemberForm" method="POST">
                 <input type="hidden" id="edit_id" name="id">
                 
-                <div class="form-group">
-                    <label for="edit_nom">Nom</label>
-                    <input type="text" id="edit_nom" name="nom" required maxlength="50">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_prenom">Prénom</label>
-                    <input type="text" id="edit_prenom" name="prenom" required maxlength="50">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_email">Email</label>
-                    <input type="email" id="edit_email" name="email" required maxlength="100">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_telephone">Téléphone</label>
-                    <input type="tel" id="edit_telephone" name="telephone" required maxlength="20">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_whatsapp">WhatsApp (Optionnel)</label>
-                    <input type="tel" id="edit_whatsapp" name="whatsapp" maxlength="20">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_pays">Pays de Résidence</label>
-                    <input type="text" id="edit_pays" name="pays" required maxlength="50">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_ville">Ville de Résidence</label>
-                    <input type="text" id="edit_ville" name="ville" required maxlength="50">
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_quartier">Quartier/Commune</label>
-                    <input type="text" id="edit_quartier" name="quartier" required maxlength="100">
-                </div>
-                
                 <div class="form-group full-width">
-                    <label for="edit_adresse">Adresse Complète</label>
-                    <textarea id="edit_adresse" name="adresse" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="edit_type_membre">Type de Membre</label>
-                    <select id="edit_type_membre" name="type_membre" required>
-                        <option value="">Sélectionnez un type</option>
-                        <option value="volontaire">Volontaire</option>
-                        <option value="donateur">Donateur</option>
-                        <option value="membre_actif">Membre Actif</option>
+                    <label for="edit_Civilite" class="required-field">Civilité</label>
+                    <select id="edit_Civilite" name="Civilite" required>
+                        <option value="">CHOISIR</option>
+                        <option value="M">M</option>
+                        <option value="Mme">Mme</option>
+                        <option value="Mmelle">Mmelle</option>
                     </select>
                 </div>
                 
-                <div class="form-group full-width">
-                    <label for="edit_message">Message (Optionnel)</label>
-                    <textarea id="edit_message" name="message"></textarea>
+                <div class="form-group">
+                    <label for="edit_Nom" class="required-field">Nom</label>
+                    <input type="text" id="edit_Nom" name="Nom" required placeholder="Entrez votre nom">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Prenom" class="required-field">Prénoms</label>
+                    <input type="text" id="edit_Prenom" name="Prenom" required placeholder="Entrez vos prénoms">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Niveau" class="required-field">Niveau</label>
+                    <select id="edit_Niveau" name="Niveau" required>
+                        <option value="">CHOISIR</option>
+                        <option value="Aucun">Aucun</option>
+                        <option value="Primaire">Primaire</option>
+                        <option value="Secondaire">Secondaire</option>
+                        <option value="Bac+1">Bac+1</option>
+                        <option value="Bac+2">Bac+2</option>
+                        <option value="Bac+3">Bac+3</option>
+                        <option value="Bac+4">Bac+4</option>
+                        <option value="Bac+5">Bac+5</option>
+                        <option value="Bac+6">Bac+5+</option>
+                        <option value="Bac+8">Bac+8</option>
+                        <option value="Bac+8+">Bac+8+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Diplome" class="required-field">Diplôme</label>
+                    <select id="edit_Diplome" name="Diplome" required>
+                        <option value="">CHOISIR</option>
+                        <option value="Aucun">Aucun</option>
+                        <option value="CEPE">CEPE</option>
+                        <option value="BEPC">BEPC</option>
+                        <option value="CAP">CAP</option>
+                        <option value="BEP">BEP</option>
+                        <option value="BT">BT</option>
+                        <option value="BAC">BAC</option>
+                        <option value="DUT">DUT</option>
+                        <option value="BTS">BTS</option>
+                        <option value="Licence">Licence</option>
+                        <option value="Maîtrise">Maîtrise</option>
+                        <option value="Master">Master</option>
+                        <option value="Ingénieur">Ingénieur</option>
+                        <option value="MBA">MBA</option>
+                        <option value="DEA/Equivalent">DEA/Equivalent</option>
+                        <option value="Doctorat">Doctorat</option>
+                        <option value="HDR(Post-doctorat)">HDR(Post-doctorat)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Specialite" class="required-field">Spécialité</label>
+                    <input type="text" id="edit_Specialite" name="Specialite" required placeholder="Entrez votre spécialité">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Fonction_actuelle" class="required-field">Fonction actuelle</label>
+                    <input type="text" id="edit_Fonction_actuelle" name="Fonction_actuelle" required placeholder="Fonction actuelle">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Telephone" class="required-field">Téléphone</label>
+                    <input type="text" id="edit_Telephone" name="Telephone" required placeholder="Entrez votre téléphone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Email" class="required-field">Email</label>
+                    <input type="email" id="edit_Email" name="Email" required placeholder="Entrez votre email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Pays" class="required-field">Pays habité</label>
+                    <select id="edit_Pays" name="Pays" required>
+                        <option value="">CHOISIR</option>
+                        <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                        <option value="France">France</option>
+                        <option value="Burkina Faso">Burkina Faso</option>
+                        <option value="Sénégal">Sénégal</option>
+                        <option value="Mali">Mali</option>
+                        <option value="Bénin">Bénin</option>
+                        <option value="Togo">Togo</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_Ville" class="required-field">Ville/Commune habitée</label>
+                    <input type="text" id="edit_Ville" name="Ville" required placeholder="Entrez votre ville ou commune habitée">
                 </div>
                 
                 <div class="form-actions">
@@ -1090,6 +1179,67 @@ if (isSuperAdmin()) {
         </div>
     </div>
 
+    <!-- Modal d'ajout d'administrateur -->
+    <div id="addAdminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddAdminModal()">&times;</span>
+            <h2>Ajouter un nouvel administrateur</h2>
+            <form id="addAdminForm" method="POST">
+                <div class="form-group">
+                    <label for="admin_name">Nom complet</label>
+                    <input type="text" id="admin_name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin_email">Email</label>
+                    <input type="email" id="admin_email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin_password">Mot de passe</label>
+                    <input type="password" id="admin_password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin_confirm_password">Confirmer le mot de passe</label>
+                    <input type="password" id="admin_confirm_password" name="confirm_password" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeAddAdminModal()">Annuler</button>
+                    <button type="submit" class="submit-btn">Ajouter l'administrateur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de modification d'administrateur -->
+    <div id="editAdminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditAdminModal()">&times;</span>
+            <h2>Modifier l'administrateur</h2>
+            <form id="editAdminForm" method="POST">
+                <input type="hidden" id="edit_admin_id" name="id">
+                <div class="form-group">
+                    <label for="edit_admin_name">Nom complet</label>
+                    <input type="text" id="edit_admin_name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_admin_email">Email</label>
+                    <input type="email" id="edit_admin_email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_admin_password">Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+                    <input type="password" id="edit_admin_password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="edit_admin_confirm_password">Confirmer le nouveau mot de passe</label>
+                    <input type="password" id="edit_admin_confirm_password" name="confirm_password">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeEditAdminModal()">Annuler</button>
+                    <button type="submit" class="submit-btn">Enregistrer les modifications</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Fonction de confirmation de déconnexion
         function confirmLogout() {
@@ -1097,9 +1247,6 @@ if (isSuperAdmin()) {
                 window.location.href = 'auth.php?action=logout';
             }
         }
-
-        
-        
 
         // Fermer le modal
         document.querySelector('.close').addEventListener('click', function() {
@@ -1197,12 +1344,12 @@ if (isSuperAdmin()) {
 
                 if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur "${adminName}" ? Cette action est irréversible.`)) {
                     showLoader();
-                    fetch('auth.php', {
+                    fetch('delete_admin.php', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                            body: `action=delete_admin&admin_id=${adminId}`
+                            body: `admin_id=${adminId}`
                         })
                         .then(response => response.json())
                         .then(data => {
@@ -1225,7 +1372,7 @@ if (isSuperAdmin()) {
         // Fonction de recherche des membres
         function searchMembers() {
             const searchTerm = document.getElementById('memberSearch').value.toLowerCase();
-            const tableBody = document.querySelector('table tbody');
+            const tableBody = document.querySelector('#membersTableBody');
             const rows = Array.from(tableBody.querySelectorAll('tr'));
             let found = false;
 
@@ -1234,43 +1381,57 @@ if (isSuperAdmin()) {
                 row.style.display = '';
             });
 
-            // Rechercher le membre correspondant
-            const matchingRow = rows.find(row => {
-                const name = row.querySelector('td:first-child').textContent.toLowerCase();
-                return name.includes(searchTerm);
+            if (!searchTerm) {
+                // Si le terme de recherche est vide, afficher tous les membres
+                return;
+            }
+
+            // Rechercher les membres correspondants
+            const matchingRows = rows.filter(row => {
+                // Les indices commencent à 1, donc :
+                // - Nom est dans la colonne 2
+                // - Prénom est dans la colonne 3
+                // - Ville est dans la colonne 8
+                const nom = row.cells[1].textContent.toLowerCase();
+                const prenom = row.cells[2].textContent.toLowerCase();
+                const ville = row.cells[7].textContent.toLowerCase();
+                
+                return nom.includes(searchTerm) || 
+                       prenom.includes(searchTerm) || 
+                       ville.includes(searchTerm);
             });
 
-            if (matchingRow && searchTerm) {
+            if (matchingRows.length > 0) {
                 // Supprimer le message "Aucun résultat" s'il existe
                 const existingMessage = document.querySelector('.no-results-message');
                 if (existingMessage) {
                     existingMessage.remove();
                 }
 
-                // Mettre le membre trouvé en première position
-                tableBody.insertBefore(matchingRow, tableBody.firstChild);
-
-                // Mettre en évidence le membre trouvé
-                matchingRow.style.backgroundColor = '#f8f9fa';
-                matchingRow.style.borderLeft = '4px solid #3498db';
-
-                // Cacher les autres membres
+                // Cacher tous les membres
                 rows.forEach(row => {
-                    if (row !== matchingRow) {
-                        row.style.display = 'none';
-                    }
+                    row.style.display = 'none';
+                });
+
+                // Afficher et mettre en évidence les membres trouvés
+                matchingRows.forEach(row => {
+                    row.style.display = '';
+                    row.style.backgroundColor = '#f8f9fa';
+                    row.style.borderLeft = '4px solid #3498db';
                 });
 
                 found = true;
-            } else if (searchTerm) {
+            } else {
                 showNoResultsMessage();
             }
 
             // Réinitialiser le style après 3 secondes
-            if (matchingRow) {
+            if (matchingRows.length > 0) {
                 setTimeout(() => {
-                    matchingRow.style.backgroundColor = '';
-                    matchingRow.style.borderLeft = '';
+                    matchingRows.forEach(row => {
+                        row.style.backgroundColor = '';
+                        row.style.borderLeft = '';
+                    });
                 }, 3000);
             }
         }
@@ -1353,8 +1514,8 @@ if (isSuperAdmin()) {
             const form = document.getElementById('addMemberForm');
             form.reset();
 
-            // Focus sur le premier champ
-            document.getElementById('nom').focus();
+            // Focus sur le premier champ (Civilité)
+            document.getElementById('Civilite').focus();
 
             // Empêcher la propagation du clic
             event.stopPropagation();
@@ -1373,57 +1534,39 @@ if (isSuperAdmin()) {
         });
 
         // Empêcher la fermeture du modal lors du clic sur le contenu
-        document.querySelector('.modal-content').addEventListener('click', function(event) {
+        document.querySelector('#addMemberModal .modal-content').addEventListener('click', function(event) {
             event.stopPropagation();
         });
 
-        // Gestion de la soumission du formulaire
-        const addMemberForm = document.getElementById('addMemberForm');
-        if (addMemberForm) {
-            addMemberForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                console.log('Formulaire soumis');
-                showLoader();
+        // Gestion de la soumission du formulaire d'ajout
+        document.getElementById('addMemberForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showLoader();
 
-                // Récupérer les données du formulaire
-                const formData = new FormData(this);
-                console.log('Données du formulaire:', Object.fromEntries(formData));
-
-                // Envoyer la requête
-                fetch('add_member.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => {
-                        console.log('Réponse reçue:', response);
-                        if (!response.ok) {
-                            throw new Error('Erreur réseau: ' + response.status);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Données reçues:', data);
-                        hideLoader();
-                        if (data.success) {
-                            showSuccessMessage('Membre ajouté avec succès');
-                            closeAddMemberModal();
-                            // Rafraîchir la page après 1.5 secondes
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 1500);
-                        } else {
-                            showErrorMessage(data.message || 'Erreur lors de l\'ajout du membre');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur:', error);
-                        hideLoader();
-                        showErrorMessage('Une erreur est survenue lors de l\'ajout du membre: ' + error.message);
-                    });
+            const formData = new FormData(this);
+            fetch('add_member.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoader();
+                if (data.success) {
+                    showSuccessMessage('Membre ajouté avec succès');
+                    closeAddMemberModal();
+                    // Rafraîchir la page après 1.5 secondes
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showErrorMessage(data.message || 'Erreur lors de l\'ajout du membre');
+                }
+            })
+            .catch(error => {
+                hideLoader();
+                showErrorMessage('Une erreur est survenue lors de l\'ajout du membre');
             });
-        } else {
-            console.error('Formulaire non trouvé');
-        }
+        });
 
         // Fonction pour afficher un message d'erreur
         function showErrorMessage(message) {
@@ -1489,17 +1632,17 @@ if (isSuperAdmin()) {
                 if (data.success) {
                     const member = data.data;
                     document.getElementById('edit_id').value = member.id;
-                    document.getElementById('edit_nom').value = member.nom;
-                    document.getElementById('edit_prenom').value = member.prenom;
-                    document.getElementById('edit_email').value = member.email;
-                    document.getElementById('edit_telephone').value = member.telephone;
-                    document.getElementById('edit_whatsapp').value = member.whatsapp || '';
-                    document.getElementById('edit_pays').value = member.pays;
-                    document.getElementById('edit_ville').value = member.ville;
-                    document.getElementById('edit_quartier').value = member.quartier;
-                    document.getElementById('edit_adresse').value = member.adresse;
-                    document.getElementById('edit_type_membre').value = member.type_membre;
-                    document.getElementById('edit_message').value = member.message || '';
+                    document.getElementById('edit_Civilite').value = member.Civilite;
+                    document.getElementById('edit_Nom').value = member.Nom;
+                    document.getElementById('edit_Prenom').value = member.Prenom;
+                    document.getElementById('edit_Niveau').value = member.Niveau;
+                    document.getElementById('edit_Diplome').value = member.Diplome;
+                    document.getElementById('edit_Specialite').value = member.Specialite;
+                    document.getElementById('edit_Fonction_actuelle').value = member.Fonction_actuelle;
+                    document.getElementById('edit_Telephone').value = member.Telephone;
+                    document.getElementById('edit_Email').value = member.Email;
+                    document.getElementById('edit_Pays').value = member.Pays;
+                    document.getElementById('edit_Ville').value = member.Ville;
                     
                     document.getElementById('editMemberModal').style.display = 'block';
                 } else {
@@ -1558,6 +1701,171 @@ if (isSuperAdmin()) {
         // Empêcher la fermeture du modal lors du clic sur le contenu
         document.querySelector('#editMemberModal .modal-content').addEventListener('click', function(event) {
             event.stopPropagation();
+        });
+
+        // Fonctions pour gérer les administrateurs
+        function openAddAdminModal() {
+            document.getElementById('addAdminModal').style.display = 'block';
+            document.getElementById('addAdminForm').reset();
+        }
+
+        function closeAddAdminModal() {
+            document.getElementById('addAdminModal').style.display = 'none';
+        }
+
+        function openEditAdminModal(adminId) {
+            console.log('Opening edit modal for admin ID:', adminId); // Debug log
+            showLoader();
+            
+            // Créer les données à envoyer
+            const formData = new FormData();
+            formData.append('id', adminId);
+            
+            fetch('get_admin.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('Response received:', response); // Debug log
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data received:', data); // Debug log
+                hideLoader();
+                if (data.success) {
+                    // Remplir le formulaire avec les données
+                    document.getElementById('edit_admin_id').value = data.id;
+                    document.getElementById('edit_admin_name').value = data.name;
+                    document.getElementById('edit_admin_email').value = data.email;
+                    
+                    // Afficher le modal
+                    const modal = document.getElementById('editAdminModal');
+                    modal.style.display = 'block';
+                    
+                    // Réinitialiser les champs de mot de passe
+                    document.getElementById('edit_admin_password').value = '';
+                    document.getElementById('edit_admin_confirm_password').value = '';
+                } else {
+                    showErrorMessage(data.message || 'Erreur lors de la récupération des données');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error); // Debug log
+                hideLoader();
+                showErrorMessage('Une erreur est survenue lors de la récupération des données');
+            });
+        }
+
+        function closeEditAdminModal() {
+            document.getElementById('editAdminModal').style.display = 'none';
+        }
+
+        // Gestion de la soumission du formulaire d'ajout d'administrateur
+        document.getElementById('addAdminForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showLoader();
+
+            const formData = new FormData(this);
+            fetch('add_admin.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoader();
+                if (data.success) {
+                    showSuccessMessage('Administrateur ajouté avec succès');
+                    closeAddAdminModal();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showErrorMessage(data.message || 'Erreur lors de l\'ajout de l\'administrateur');
+                }
+            })
+            .catch(error => {
+                hideLoader();
+                showErrorMessage('Une erreur est survenue');
+            });
+        });
+
+        // Gestion de la soumission du formulaire de modification d'administrateur
+        document.getElementById('editAdminForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showLoader();
+
+            const formData = new FormData(this);
+            fetch('update_admin.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoader();
+                if (data.success) {
+                    showSuccessMessage('Administrateur modifié avec succès');
+                    closeEditAdminModal();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    showErrorMessage(data.message || 'Erreur lors de la modification de l\'administrateur');
+                }
+            })
+            .catch(error => {
+                hideLoader();
+                showErrorMessage('Une erreur est survenue');
+            });
+        });
+
+        // Gestion de la suppression d'administrateur
+        function deleteAdmin(adminId, adminName) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer l'administrateur "${adminName}" ? Cette action est irréversible.`)) {
+                showLoader();
+                fetch('delete_admin.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `admin_id=${adminId}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoader();
+                    if (data.success) {
+                        showSuccessMessage('Administrateur supprimé avec succès');
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
+                    } else {
+                        showErrorMessage(data.message || 'Erreur lors de la suppression de l\'administrateur');
+                    }
+                })
+                .catch(error => {
+                    hideLoader();
+                    showErrorMessage('Une erreur est survenue');
+                });
+            }
+        }
+
+        // Fermer les modals en cliquant en dehors
+        window.addEventListener('click', function(event) {
+            const addAdminModal = document.getElementById('addAdminModal');
+            const editAdminModal = document.getElementById('editAdminModal');
+            
+            if (event.target === addAdminModal) {
+                closeAddAdminModal();
+            }
+            if (event.target === editAdminModal) {
+                closeEditAdminModal();
+            }
+        });
+
+        // Empêcher la fermeture des modals lors du clic sur le contenu
+        document.querySelectorAll('.modal-content').forEach(content => {
+            content.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
         });
     </script>
 </body>

@@ -3,8 +3,8 @@ require_once '../config.php';
 require_once 'auth.php';
 requireLogin();
 
-// Vérifier si l'utilisateur est super admin
-if (!isSuperAdmin()) {
+// Vérifier si l'utilisateur est connecté
+if (!isset($_SESSION['admin_id'])) {
     header('Content-Type: application/json');
     echo json_encode(['success' => false, 'message' => 'Accès non autorisé']);
     exit();
@@ -18,7 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Validation des données requises
-$required_fields = ['id', 'nom', 'prenom', 'email', 'telephone', 'type_membre'];
+$required_fields = [
+    'id', 'Civilite', 'Nom', 'Prenom', 'Niveau', 'Diplome', 
+    'Specialite', 'Fonction_actuelle', 'Telephone', 'Email', 
+    'Pays', 'Ville'
+];
+
 foreach ($required_fields as $field) {
     if (!isset($_POST[$field]) || empty($_POST[$field])) {
         echo json_encode(['success' => false, 'message' => "Le champ $field est requis"]);
@@ -27,17 +32,17 @@ foreach ($required_fields as $field) {
 }
 
 $id = (int)$_POST['id'];
-$nom = clean_input($_POST['nom']);
-$prenom = clean_input($_POST['prenom']);
-$email = clean_input($_POST['email']);
-$telephone = clean_input($_POST['telephone']);
-$type_membre = clean_input($_POST['type_membre']);
-$whatsapp = isset($_POST['whatsapp']) ? clean_input($_POST['whatsapp']) : null;
-$pays = clean_input($_POST['pays']);
-$ville = clean_input($_POST['ville']);
-$quartier = clean_input($_POST['quartier']);
-$adresse = clean_input($_POST['adresse']);
-$message = isset($_POST['message']) ? clean_input($_POST['message']) : null;
+$civilite = clean_input($_POST['Civilite']);
+$nom = clean_input($_POST['Nom']);
+$prenom = clean_input($_POST['Prenom']);
+$niveau = clean_input($_POST['Niveau']);
+$diplome = clean_input($_POST['Diplome']);
+$specialite = clean_input($_POST['Specialite']);
+$fonction_actuelle = clean_input($_POST['Fonction_actuelle']);
+$telephone = clean_input($_POST['Telephone']);
+$email = clean_input($_POST['Email']);
+$pays = clean_input($_POST['Pays']);
+$ville = clean_input($_POST['Ville']);
 
 try {
     // Vérifier si le membre existe
@@ -60,33 +65,33 @@ try {
     // Mettre à jour les informations du membre
     $stmt = $pdo->prepare("
         UPDATE membres 
-        SET nom = ?, 
+        SET civilite = ?,
+            nom = ?, 
             prenom = ?, 
-            email = ?, 
+            niveau = ?,
+            diplome = ?,
+            specialite = ?,
+            fonction_actuelle = ?,
             telephone = ?, 
-            whatsapp = ?, 
+            email = ?, 
             pays = ?, 
-            ville = ?, 
-            quartier = ?, 
-            adresse = ?, 
-            type_membre = ?, 
-            message = ?,
+            ville = ?,
             date_modification = NOW()
         WHERE id = ?
     ");
 
     $stmt->execute([
+        $civilite,
         $nom,
         $prenom,
-        $email,
+        $niveau,
+        $diplome,
+        $specialite,
+        $fonction_actuelle,
         $telephone,
-        $whatsapp,
+        $email,
         $pays,
         $ville,
-        $quartier,
-        $adresse,
-        $type_membre,
-        $message,
         $id
     ]);
 

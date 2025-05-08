@@ -8,39 +8,282 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Header Styles */
+        
+        header {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.98));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(52, 152, 219, 0.1);
+            height: 80px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3%;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.8rem;
+            text-align: left;
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            margin-right: 1.2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1a73e8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid #1a73e8;
+            padding: 3px;
+        }
+        
+        .logo-texts {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+        
+        .logo-acronym {
+            font-size: 0.95rem;
+            color: #1a73e8;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0;
+            background: none;
+            line-height: 1.2;
+            max-width: 220px;
+            word-break: break-word;
+        }
+        
+        .founder-name {
+            font-size: 0.9rem;
+            color: #000000;
+            margin: 0;
+            font-weight: 700;
+            padding: 0;
+            background: none;
+            line-height: 1.2;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0.8rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            align-items: center;
+        }
+        
+        .nav-links li a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #1a73e8;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover {
+            color: #1557b0;
+            background: rgba(26, 115, 232, 0.05);
+        }
+        
+        .nav-links li a:hover::after {
+            width: 80%;
+        }
+        
+        .nav-links li a.active {
+            color: #1557b0;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        .nav-links li a.active::after {
+            width: 80%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #1a73e8;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle:hover {
+            background: rgba(26, 115, 232, 0.05);
+            color: #1557b0;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                height: 70px;
+            }
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.2rem;
+                margin-right: 0.5rem;
+            }
+            .logo {
+                font-size: 1.8rem;
+            }
+            .logo img {
+                width: 45px;
+                height: 40px;
+            }
+            .logo-acronym {
+                font-size: 0.8rem;
+                max-width: 140px;
+            }
+            .founder-name {
+                font-size: 0.75rem;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                gap: 0.4rem;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            .nav-links li a {
+                font-size: 1rem;
+                padding: 0.3rem 0.6rem;
+            }
+        }
+        /* Success Message Styles */
+        
         .success-container {
-            max-width: 600px;
-            margin: 8rem auto;
+            margin-top: 120px;
             padding: 2rem;
             text-align: center;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .success-icon {
-            font-size: 4rem;
+            font-size: 5rem;
             color: #2ecc71;
+            margin-bottom: 2rem;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        .success-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
             margin-bottom: 1rem;
+            animation: fadeInUp 0.5s ease;
         }
         
         .success-message {
-            color: #2c3e50;
+            font-size: 1.2rem;
+            color: #7f8c8d;
             margin-bottom: 2rem;
+            animation: fadeInUp 0.5s ease 0.2s;
+            animation-fill-mode: both;
         }
         
-        .back-home {
+        .back-button {
             display: inline-block;
-            background-color: #3498db;
-            color: white;
             padding: 1rem 2rem;
+            background: linear-gradient(45deg, #3498db, #2ecc71);
+            color: white;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.5s ease 0.4s;
+            animation-fill-mode: both;
         }
         
-        .back-home:hover {
-            background-color: #2980b9;
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        main {
+            margin-top: 80px;
         }
     </style>
 </head>
@@ -49,10 +292,15 @@
     <header>
         <nav>
             <div class="logo-container">
-                <div class="logo">FIER</div>
-                <div class="logo-acronym">Fraternité Ivoirienne et Républicaine</div>
-                <div class="founder-name">Fondée par Monsieur JEAN BONIN</div>
+                <div class="logo">
+                    <img src="img/logo.jpg" alt="ONG Logo">
+                </div>
+                <div class="logo-texts">
+                    <div class="logo-acronym">FRATERNITÉ IVOIRIENNE ET RÉPUBLICAINE</div>
+                    <div class="founder-name">Fondée par Monsieur JEAN BONIN</div>
+                </div>
             </div>
+
             <ul class="nav-links">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="about.html">À Propos</a></li>
@@ -65,17 +313,16 @@
     <main>
         <div class="success-container">
             <i class="fas fa-check-circle success-icon"></i>
-            <h1 class="success-message">Inscription Réussie !</h1>
-            <p>Merci de votre inscription à FIER. Nous avons bien reçu votre demande d'adhésion.</p>
-            <p>Notre équipe vous contactera dans les plus brefs délais pour la suite du processus.</p>
-            <a href="index.html" class="back-home">Retour à l'accueil</a>
+            <h1 class="success-title">Inscription Réussie !</h1>
+            <p class="success-message">Merci d'avoir rejoint FIER. Votre inscription a été enregistrée avec succès. Nous vous contacterons bientôt pour la suite du processus.</p>
+            <a href="index.html" class="back-button">Retour à l'accueil</a>
         </div>
     </main>
 
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Contact</h3>
+                <h3 class="company-name">FIER</h3>
                 <p>Email: contact@fier.org</p>
                 <p>Téléphone: +33 1 23 45 67 89</p>
                 <p>Adresse: COCODY ANGRE (Cité ZINSOU)</p>

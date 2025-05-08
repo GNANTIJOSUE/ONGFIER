@@ -5,32 +5,47 @@ requireLogin();
 
 header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
+if (!isset($_POST['id'])) {
+    echo json_encode(['success' => false, 'message' => 'ID du membre non spécifié']);
     exit;
 }
-
-if (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
-    echo json_encode(['success' => false, 'message' => 'ID du membre invalide']);
-    exit;
-}
-
-$id = (int)$_POST['id'];
 
 try {
-    $stmt = $pdo->prepare("
-        SELECT id, nom, prenom, email, telephone, whatsapp, pays, ville, quartier, adresse, type_membre, message, statut
+    $id = intval($_POST['id']);
+    
+    $stmt = $pdo->prepare("SELECT 
+        id,
+        Civilite,
+        Nom,
+        Prenom,
+        Niveau,
+        Diplome,
+        Specialite,
+        Fonction_actuelle,
+        Telephone,
+        Email,
+        Pays,
+        Ville
         FROM membres 
-        WHERE id = ?
-    ");
+        WHERE id = ?");
+    
     $stmt->execute([$id]);
     $member = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($member) {
-        echo json_encode(['success' => true, 'data' => $member]);
+        echo json_encode([
+            'success' => true,
+            'data' => $member
+        ]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Membre non trouvé']);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Membre non trouvé'
+        ]);
     }
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Erreur de base de données: ' . $e->getMessage()]);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erreur lors de la récupération des données: ' . $e->getMessage()
+    ]);
 } 

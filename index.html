@@ -4,181 +4,573 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - NGO</title>
+    <title>Accueil - FIER</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 2rem;
+            position: relative;
+            margin-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            animation: fadeIn 1s ease;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            backdrop-filter: blur(3px);
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s;
+            animation-fill-mode: both;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            font-weight: 500;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #1a73e8;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s;
+            animation-fill-mode: both;
+            border: 2px solid #1a73e8;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+            background: #1557b0;
+            border-color: #1557b0;
+        }
+        
+        .features {
+            padding: 6rem 2rem;
+            background: var(--white);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card p {
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+        
+        .latest-actions {
+            padding: 6rem 2rem;
+            background: var(--light-gray);
+        }
+        
+        .section-title {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .action-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .action-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .action-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .action-content {
+            padding: 2rem;
+        }
+        
+        .action-content h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .action-content p {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .action-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        
+        .action-link:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                height: calc(100vh - 70px);
+                margin-top: 70px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            .hero-content {
+                padding: 1.5rem;
+            }
+            .features-grid,
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.8rem;
+            text-align: left;
+            padding: 0;
+            background: none;
+            box-shadow: none;
+            margin-right: 1.2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1a73e8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .logo img {
+            width: 60px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid #1a73e8;
+            padding: 3px;
+        }
+        
+        .logo-texts {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+        
+        .logo-acronym {
+            font-size: 0.95rem;
+            color: #1a73e8;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0;
+            background: none;
+            line-height: 1.2;
+            max-width: 220px;
+            word-break: break-word;
+        }
+        
+        .founder-name {
+            font-size: 0.9rem;
+            color: #000000;
+            margin: 0;
+            font-weight: 700;
+            padding: 0;
+            background: none;
+            line-height: 1.2;
+        }
+        
+        @media (max-width: 768px) {
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.2rem;
+                margin-right: 0.5rem;
+            }
+            .logo {
+                font-size: 1.8rem;
+            }
+            .logo img {
+                width: 45px;
+                height: 40px;
+            }
+            .logo-acronym {
+                font-size: 0.8rem;
+                max-width: 140px;
+            }
+            .founder-name {
+                font-size: 0.75rem;
+            }
+            .nav-links {
+                gap: 0.4rem;
+            }
+        }
+        
+        header {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.98));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(52, 152, 219, 0.1);
+            height: 80px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3%;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: 100%;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0.8rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            align-items: center;
+        }
+        
+        .nav-links li a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #1a73e8;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links li a:hover {
+            color: #1557b0;
+            background: rgba(26, 115, 232, 0.05);
+        }
+        
+        .nav-links li a:hover::after {
+            width: 80%;
+        }
+        
+        .nav-links li a.active {
+            color: #1557b0;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        .nav-links li a.active::after {
+            width: 80%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #1a73e8;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle:hover {
+            background: rgba(26, 115, 232, 0.05);
+            color: #1557b0;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                height: 70px;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                gap: 1rem;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            .nav-links li a {
+                font-size: 1.1rem;
+                padding: 0.6rem 1.5rem;
+            }
+            .logo {
+                font-size: 1.8rem;
+            }
+            .logo img {
+                width: 45px;
+                height: 40px;
+            }
+            .logo-acronym {
+                font-size: 0.9rem;
+            }
+            .founder-name {
+                font-size: 0.8rem;
+            }
+        }
+        
+        main {
+            margin-top: 80px;
+        }
+    </style>
 </head>
 
 <body>
     <header>
-        <nav class="navbar">
-            <div class="logo">
-                <img src="img/logo.png" alt="NGO Logo">
-                <h1>NGO</h1>
+        <nav>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="img/logo.jpg" alt="ONG Logo">
+                </div>
+                <div class="logo-texts">
+                    <div class="logo-acronym">FRATERNITÉ IVOIRIENNE ET RÉPUBLICAINE</div>
+                    <div class="founder-name">Fondée par Monsieur JEAN BONIN</div>
+                </div>
             </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
             </div>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Accueil</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="actions.html">Nos actions</a></li>
-                <li><a href="join.html">Rejoindre</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="actions.html">Nos Actions</a></li>
+                <li><a href="join.html">Nous Rejoindre</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="hero">
-        <h2>Bienvenue chez NGO</h2>
-        <p>Ensemble, créons un monde meilleur</p>
-        <a href="join.html" class="btn">Rejoignez-nous</a>
+        <div class="hero-content">
+            <h1>Bienvenue chez FIER</h1>
+            <p>Ensemble, construisons un avenir meilleur pour la Côte d'Ivoire</p>
+            <a href="join.html" class="cta-button">Rejoignez-nous</a>
+        </div>
     </section>
 
-    <section class="section">
-        <div class="section-title">
-            <h2>Nos Actions Principales</h2>
-            <p>Découvrez comment nous faisons la différence</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <img src="img/education.jpg" alt="Éducation">
-                <div class="card-content">
-                    <h3>Éducation</h3>
-                    <p>Nous construisons des écoles et formons des enseignants pour assurer l'accès à l'éducation pour tous.</p>
-                    <a href="actions.html" class="btn">En savoir plus</a>
-                </div>
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card animate-on-scroll">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Solidarité</h3>
+                <p>Nous travaillons ensemble pour soutenir les plus démunis et créer un impact positif dans notre communauté.</p>
             </div>
-            <div class="card">
-                <img src="img/health.jpg" alt="Santé">
-                <div class="card-content">
-                    <h3>Santé</h3>
-                    <p>Nous fournissons des soins médicaux essentiels et organisons des campagnes de sensibilisation.</p>
-                    <a href="actions.html" class="btn">En savoir plus</a>
-                </div>
+            <div class="feature-card animate-on-scroll">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Éducation</h3>
+                <p>Nous investissons dans l'éducation pour former les leaders de demain et promouvoir le développement.</p>
             </div>
-            <div class="card">
-                <img src="img/environment.jpg" alt="Environnement">
-                <div class="card-content">
-                    <h3>Environnement</h3>
-                    <p>Nous menons des projets de reforestation et de protection de l'environnement.</p>
-                    <a href="actions.html" class="btn">En savoir plus</a>
-                </div>
+            <div class="feature-card animate-on-scroll">
+                <i class="fas fa-heart"></i>
+                <h3>Engagement</h3>
+                <p>Notre engagement envers la Côte d'Ivoire se traduit par des actions concrètes et des projets durables.</p>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <div class="section-title">
-            <h2>Notre Impact</h2>
-            <p>Des chiffres qui parlent d'eux-mêmes</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <div class="card-content">
-                    <h3>50+</h3>
-                    <p>Projets réalisés</p>
+    <section class="latest-actions">
+        <h2 class="section-title">Nos Dernières Actions</h2>
+        <div class="actions-grid">
+            <div class="action-card animate-on-scroll">
+                <img src="images/action1.jpg" alt="Distribution de Kits Scolaires">
+                <div class="action-content">
+                    <h3>Distribution de Kits Scolaires</h3>
+                    <p>Distribution de kits scolaires aux élèves défavorisés pour la rentrée scolaire 2024.</p>
+                    <a href="actions.html" class="action-link">En savoir plus →</a>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-content">
-                    <h3>1000+</h3>
-                    <p>Bénévoles actifs</p>
+            <div class="action-card animate-on-scroll">
+                <img src="images/action2.jpg" alt="Formation Professionnelle">
+                <div class="action-content">
+                    <h3>Formation Professionnelle</h3>
+                    <p>Programme de formation professionnelle pour les jeunes sans emploi.</p>
+                    <a href="actions.html" class="action-link">En savoir plus →</a>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-content">
-                    <h3>10000+</h3>
-                    <p>Personnes aidées</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="section-title">
-            <h2>Dernières Actualités</h2>
-            <p>Restez informé de nos dernières actions</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <img src="img/news1.jpg" alt="Actualité 1">
-                <div class="card-content">
-                    <h3>Nouvelle École Ouverte</h3>
-                    <p>Nous avons inauguré une nouvelle école dans la région de...</p>
-                    <a href="#" class="btn">Lire la suite</a>
-                </div>
-            </div>
-            <div class="card">
-                <img src="img/news2.jpg" alt="Actualité 2">
-                <div class="card-content">
+            <div class="action-card animate-on-scroll">
+                <img src="images/action3.jpg" alt="Campagne de Santé">
+                <div class="action-content">
                     <h3>Campagne de Santé</h3>
-                    <p>Une campagne de vaccination a été menée avec succès...</p>
-                    <a href="#" class="btn">Lire la suite</a>
+                    <p>Campagne de sensibilisation et de dépistage gratuit dans les quartiers défavorisés.</p>
+                    <a href="actions.html" class="action-link">En savoir plus →</a>
                 </div>
             </div>
-            <div class="card">
-                <img src="img/news3.jpg" alt="Actualité 3">
-                <div class="card-content">
-                    <h3>Projet Environnemental</h3>
-                    <p>Plus de 1000 arbres ont été plantés dans le cadre de...</p>
-                    <a href="#" class="btn">Lire la suite</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="section-title">
-            <h2>Contactez-nous</h2>
-            <p>Nous sommes à votre écoute</p>
-        </div>
-        <div class="form-container">
-            <form id="contactForm">
-                <div class="form-group">
-                    <label for="name">Nom</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="btn">Envoyer</button>
-            </form>
         </div>
     </section>
 
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Contact</h3>
-                <ul>
-                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
-                    <li><i class="fas fa-envelope"></i> contact@ngo.org</li>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue de la Paix, Paris</li>
-                </ul>
+                <h3 class="company-name">FIER</h3>
+                <p>Email: contact@fier.org</p>
+                <p>Téléphone: +33 1 23 45 67 89</p>
+                <p>Adresse: COCODY ANGRE (Cité ZINSOU)</p>
             </div>
             <div class="footer-section">
-                <h3>Liens Rapides</h3>
-                <ul>
-                    <li><a href="about.html">À propos</a></li>
-                    <li><a href="actions.html">Nos actions</a></li>
-                    <li><a href="join.html">Rejoindre</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Suivez-nous</h3>
+                <h3>Suivez-Nous</h3>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 FIER. Tous droits réservés.</p>
         </div>
     </footer>
 

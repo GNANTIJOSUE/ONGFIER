@@ -16,6 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['Email'] ?? '';
     $pays = $_POST['Pays'] ?? '';
     $ville = $_POST['Ville'] ?? '';
+    $situation_matrimoniale = $_POST['Situation_matrimoniale'] ?? '';
+    $date_de_naissance = $_POST['Date_de_naissance'] ?? '';
+
 
     $errors = [];
 
@@ -31,6 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Un email valide est requis";
     if (!$pays) $errors[] = "Le pays est requis";
     if (!$ville) $errors[] = "La ville est requise";
+    if (!$situation_matrimoniale) $errors[] = "La situation matrimoniale est requise";
+    if (!$date_de_naissance) $errors[] = "La date de naissance est requise";
 
     // Vérifier l'unicité de l'email
     if (!$errors) {
@@ -48,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         $stmt = $conn->prepare("INSERT INTO membres 
-            (civilite, nom, prenom, niveau, diplome, specialite, fonction_actuelle, telephone, email, pays, ville, date_inscription, statut) 
+            (civilite, nom, prenom, niveau, diplome, specialite, fonction_actuelle, telephone, email, pays, ville, date_inscription, statut, situation_matrimoniale, date_de_naissance) 
             VALUES 
-            (:civilite, :nom, :prenom, :niveau, :diplome, :specialite, :fonction_actuelle, :telephone, :email, :pays, :ville, NOW(), 'en_attente')");
+            (:civilite, :nom, :prenom, :niveau, :diplome, :specialite, :fonction_actuelle, :telephone, :email, :pays, :ville, NOW(), 'en_attente', :situation_matrimoniale, :date_de_naissance)");
 
         $stmt->execute([
             ':civilite' => $civilite,
@@ -63,7 +68,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ':telephone' => $telephone,
             ':email' => $email,
             ':pays' => $pays,
-            ':ville' => $ville
+            ':ville' => $ville,
+            ':situation_matrimoniale' => $situation_matrimoniale,
+            ':date_de_naissance' => $date_de_naissance,
         ]);
 
         echo json_encode(['success' => true, 'message' => 'Inscription réussie !']);

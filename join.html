@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+         :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #1557b0;
+            --text-color: #333;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
         .join-hero {
             height: 50vh;
             background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
@@ -242,7 +252,6 @@
         .form-group.success .success-message {
             display: block;
         }
-        /* Ajout d'un effet de brillance sur les champs au focus */
         
         .form-group input:focus::after,
         .form-group select:focus::after,
@@ -256,7 +265,6 @@
             background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             pointer-events: none;
         }
-        /* Style personnalisé pour le select */
         
         .form-group select {
             appearance: none;
@@ -271,14 +279,12 @@
         .form-group select:hover {
             background-color: #f8f9fa;
         }
-        /* Style pour le textarea */
         
         .form-group textarea {
             min-height: 150px;
             line-height: 1.6;
             resize: vertical;
         }
-        /* Animation de chargement pour le bouton submit */
         
         .submit-btn.loading {
             position: relative;
@@ -412,7 +418,6 @@
                 grid-template-columns: 1fr;
             }
         }
-        /* --- HEADER STYLES FROM index.html --- */
         
         header {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(248, 249, 250, 0.98));
@@ -423,29 +428,37 @@
             z-index: 1000;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(52, 152, 219, 0.1);
-            height: 80px;
+            height: auto;
+            min-height: 80px;
         }
         
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 3%;
+            padding: 1rem 3%;
             max-width: 1400px;
             margin: 0 auto;
-            height: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            z-index: 1001;
         }
         
         .logo-container {
             display: flex;
-            flex-direction: row;
             align-items: center;
-            gap: 0.8rem;
-            text-align: left;
-            padding: 0;
-            background: none;
-            box-shadow: none;
-            margin-right: 1.2rem;
+            gap: 1rem;
+            flex: 1;
+            min-width: 200px;
         }
         
         .logo {
@@ -463,154 +476,136 @@
         
         .logo img {
             width: 60px;
-            height: 50px;
+            height: 60px;
             object-fit: contain;
-            border-radius: 8px;
-            border: 2px solid #1a73e8;
-            padding: 3px;
+            transition: var(--transition);
         }
         
         .logo-texts {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             gap: 0.3rem;
         }
         
         .logo-acronym {
-            font-size: 0.95rem;
-            color: #1a73e8;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0;
-            background: none;
+            color: var(--primary-color);
             line-height: 1.2;
-            max-width: 220px;
-            word-break: break-word;
         }
         
         .founder-name {
-            font-size: 0.9rem;
-            color: #000000;
-            margin: 0;
-            font-weight: 700;
-            padding: 0;
-            background: none;
+            font-size: 0.8rem;
+            color: var(--text-color);
             line-height: 1.2;
         }
         
         .nav-links {
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
             list-style: none;
-            margin: 0;
-            padding: 0;
-            height: 100%;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .nav-links li a {
-            color: #1a73e8;
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            padding: 0.4rem 0.8rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
             border-radius: 6px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: #1a73e8;
-            transition: width 0.3s ease;
+            transition: var(--transition);
+            display: block;
         }
         
         .nav-links li a:hover {
-            color: #1557b0;
-            background: rgba(26, 115, 232, 0.05);
-        }
-        
-        .nav-links li a:hover::after {
-            width: 80%;
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--secondary-color);
         }
         
         .nav-links li a.active {
-            color: #1557b0;
             background: rgba(26, 115, 232, 0.1);
+            color: var(--secondary-color);
         }
         
-        .nav-links li a.active::after {
-            width: 80%;
-        }
-        
-        .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            color: #1a73e8;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        
-        .menu-toggle:hover {
-            background: rgba(26, 115, 232, 0.05);
-            color: #1557b0;
-        }
-        
-        @media (max-width: 768px) {
-            header {
-                height: 70px;
-            }
-            .logo-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.2rem;
-                margin-right: 0.5rem;
-            }
-            .logo {
-                font-size: 1.8rem;
-            }
-            .logo img {
-                width: 45px;
-                height: 40px;
-            }
+        @media (max-width: 1024px) {
             .logo-acronym {
                 font-size: 0.8rem;
-                max-width: 140px;
             }
             .founder-name {
                 font-size: 0.75rem;
             }
+            .nav-links li a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                min-height: 70px;
+            }
+            nav {
+                padding: 0.5rem 3%;
+            }
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+            }
+            .logo-container {
+                flex: 0 1 auto;
+            }
+            .logo img {
+                width: 50px;
+                height: 50px;
+            }
             .nav-links {
+                display: none;
                 position: fixed;
                 top: 70px;
                 left: 0;
                 width: 100%;
                 background: rgba(255, 255, 255, 0.98);
                 flex-direction: column;
-                align-items: center;
                 padding: 1rem 0;
-                gap: 0.4rem;
-                transform: translateY(-150%);
-                transition: transform 0.3s ease;
+                gap: 0.5rem;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
             }
-            .nav-links.active {
-                transform: translateY(0);
+            .nav-links.show {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+                text-align: center;
             }
             .nav-links li a {
-                font-size: 1rem;
-                padding: 0.3rem 0.6rem;
+                padding: 0.8rem 1rem;
+                display: block;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-container {
+                min-width: 150px;
+            }
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+            .logo-acronym {
+                font-size: 0.7rem;
+            }
+            .founder-name {
+                font-size: 0.65rem;
+            }
+            .nav-links li a {
+                font-size: 0.9rem;
+                padding: 0.7rem 1rem;
             }
         }
         
@@ -623,6 +618,9 @@
 <body>
     <header>
         <nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
             <div class="logo-container">
                 <div class="logo">
                     <img src="img/logo.jpg" alt="ONG Logo">
@@ -637,20 +635,13 @@
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="about.html">À Propos</a></li>
                 <li><a href="actions.html">Nos Actions</a></li>
-                <li><a href="join.html">Nous Rejoindre</a></li>
+                <li><a href="join.html" class="active">Nous Rejoindre</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- <section class="join-hero">
-        <div class="hero-content">
-            <h1>Rejoignez FIER</h1>
-            <p>Devenez membre de notre organisation et contribuez à notre mission</p>
-        </div>
-    </section> -->
-
     <main class="join-content">
-        <div class="form-container animate-on-scroll">
+        <div class="form-container">
             <form action="process_form.php" method="POST" class="join-form">
                 <h3 class="form-title">Veuillez renseigner ce formulaire pour rejoindre FIER</h3>
                 <div class="form-grid">
@@ -745,6 +736,21 @@
                         <label for="Ville">Ville/Commune habitée</label>
                         <input name="Ville" id="Ville" placeholder="Entrez votre ville ou commune habitée" type="text" required>
                     </div>
+                    <div class="form-group">
+                        <label for="Situation_matrimoniale">Situation Matrimoniale</label>
+                        <select name="Situation_matrimoniale" id="Situation_matrimoniale" required>
+                            <option value="">Sélectionnez votre situation</option>
+                            <option value="Celibataire">Célibataire</option>
+                            <option value="Marie">Marié(e)</option>
+                            <option value="Divorce">Divorcé(e)</option>
+                            <option value="Veuf">Veuf/Veuve</option>
+                            <option value="Concubinage">En concubinage</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Date_de_naissance">Date de Naissance</label>
+                        <input type="date" name="Date_de_naissance" id="Date_de_naissance" required>
+                    </div>
                 </div>
                 <button type="submit" class="submit-btn">
                     <span>Soumettre</span>
@@ -779,7 +785,7 @@
             <div class="footer-section">
                 <h3 class="company-name">FIER</h3>
                 <p>Email: contact@fier.org</p>
-                <p>Téléphone: +33 1 23 45 67 89</p>
+                <p>Téléphone: 27 22 42 16 19</p>
                 <p>Adresse: COCODY ANGRE (Cité ZINSOU)</p>
             </div>
             <div class="footer-section">
@@ -798,7 +804,40 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            function toggleMenu() {
+                console.log('Menu toggle clicked');
+                navLinks.classList.toggle('show');
+            }
+
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('show');
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('nav')) {
+                    navLinks.classList.remove('show');
+                }
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    navLinks.classList.remove('show');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

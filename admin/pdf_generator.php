@@ -56,16 +56,29 @@ class MYPDF extends TCPDF {
 try {
     // Récupérer le terme de recherche
     $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+    $ageFilter = isset($_GET['age_filter']) ? $_GET['age_filter'] : '';
 
     // Préparer la requête de base
     $baseQuery = "FROM membres";
     $whereClause = "";
     $params = [];
 
-    // Ajouter la condition de recherche si un terme est fourni
-    if (!empty($searchTerm)) {
-        $whereClause = "WHERE nom LIKE :search OR prenom LIKE :search OR ville LIKE :search";
-        $params[':search'] = "%$searchTerm%";
+    // Modifier la clause WHERE pour inclure le filtre d'âge
+    if (!empty($searchTerm) || !empty($ageFilter)) {
+        $whereClause = "WHERE ";
+        $conditions = [];
+        
+        if (!empty($searchTerm)) {
+            $conditions[] = "(nom LIKE :search OR prenom LIKE :search OR ville LIKE :search)";
+            $params[':search'] = "%$searchTerm%";
+        }
+        
+        if (!empty($ageFilter)) {
+            $conditions[] = "TIMESTAMPDIFF(YEAR, date_de_naissance, CURDATE()) " . 
+                           ($ageFilter === 'majeur' ? ">= 18" : "< 18");
+        }
+        
+        $whereClause .= implode(" AND ", $conditions);
     }
 
     // Requête pour récupérer les membres
@@ -86,7 +99,7 @@ try {
     // Définir les informations du document
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor('FIER Admin');
-    $pdf->SetTitle('Liste des Membres - ' . $searchTerm);
+    $pdf->SetTitle('Liste des Membres - ' . $searchTerm . ' - ' . ($ageFilter === 'majeur' ? 'Majeurs' : 'Mineurs'));
 
     // Définir les marges
     $pdf->SetMargins(15, 40, 15);
@@ -143,7 +156,7 @@ try {
     ob_clean();
 
     // Générer le PDF
-    $pdf->Output('membres_' . $searchTerm . '.pdf', 'I');
+    $pdf->Output('membres_' . $searchTerm . '_' . ($ageFilter === 'majeur' ? 'majeurs' : 'mineurs') . '.pdf', 'I');
 } catch (Exception $e) {
     // En cas d'erreur, nettoyer la sortie et afficher un message d'erreur
     ob_clean();

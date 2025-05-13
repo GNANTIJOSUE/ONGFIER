@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $required_fields = [
     'id', 'Civilite', 'Nom', 'Prenom', 'Niveau', 'Diplome', 
     'Specialite', 'Fonction_actuelle', 'Telephone', 'Email', 
-    'Pays', 'Ville'
+    'Pays', 'Ville', 'date_de_naissance', 'situation_matrimoniale'
 ];
 
 foreach ($required_fields as $field) {
@@ -43,6 +43,8 @@ $telephone = clean_input($_POST['Telephone']);
 $email = clean_input($_POST['Email']);
 $pays = clean_input($_POST['Pays']);
 $ville = clean_input($_POST['Ville']);
+$date_de_naissance = clean_input($_POST['date_de_naissance']);
+$situation_matrimoniale = clean_input($_POST['situation_matrimoniale']);
 
 try {
     // Vérifier si le membre existe
@@ -76,6 +78,8 @@ try {
             email = ?, 
             pays = ?, 
             ville = ?,
+            date_de_naissance = ?,
+            situation_matrimoniale = ?,
             date_modification = NOW()
         WHERE id = ?
     ");
@@ -92,6 +96,8 @@ try {
         $email,
         $pays,
         $ville,
+        $date_de_naissance,
+        $situation_matrimoniale,
         $id
     ]);
 

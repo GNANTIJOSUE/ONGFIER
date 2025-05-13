@@ -10,7 +10,7 @@
     <style>
         .actions-hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/president.jpg');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -79,7 +79,7 @@
         
         .program-card img {
             width: 100%;
-            height: 250px;
+            height: 400px;
             object-fit: cover;
         }
         
@@ -228,29 +228,26 @@
             z-index: 1000;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(52, 152, 219, 0.1);
-            height: 80px;
+            height: auto;
+            min-height: 80px;
         }
         
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 3%;
+            padding: 1rem 3%;
             max-width: 1400px;
             margin: 0 auto;
-            height: 100%;
+            flex-wrap: wrap;
         }
         
         .logo-container {
             display: flex;
-            flex-direction: row;
             align-items: center;
-            gap: 0.8rem;
-            text-align: left;
-            padding: 0;
-            background: none;
-            box-shadow: none;
-            margin-right: 1.2rem;
+            gap: 1rem;
+            flex: 1;
+            min-width: 200px;
         }
         
         .logo {
@@ -268,154 +265,147 @@
         
         .logo img {
             width: 60px;
-            height: 50px;
+            height: 60px;
             object-fit: contain;
-            border-radius: 8px;
-            border: 2px solid #1a73e8;
-            padding: 3px;
+            transition: var(--transition);
         }
         
         .logo-texts {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             gap: 0.3rem;
         }
         
         .logo-acronym {
-            font-size: 0.95rem;
-            color: #1a73e8;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0;
-            background: none;
+            color: var(--primary-color);
             line-height: 1.2;
-            max-width: 220px;
-            word-break: break-word;
         }
         
         .founder-name {
-            font-size: 0.9rem;
-            color: #000000;
-            margin: 0;
-            font-weight: 700;
-            padding: 0;
-            background: none;
+            font-size: 0.8rem;
+            color: var(--text-color);
             line-height: 1.2;
         }
         
         .nav-links {
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
             list-style: none;
-            margin: 0;
-            padding: 0;
-            height: 100%;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .nav-links li a {
-            color: #1a73e8;
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            padding: 0.4rem 0.8rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
             border-radius: 6px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: #1a73e8;
-            transition: width 0.3s ease;
+            transition: var(--transition);
+            display: block;
         }
         
         .nav-links li a:hover {
-            color: #1557b0;
-            background: rgba(26, 115, 232, 0.05);
-        }
-        
-        .nav-links li a:hover::after {
-            width: 80%;
-        }
-        
-        .nav-links li a.active {
-            color: #1557b0;
             background: rgba(26, 115, 232, 0.1);
-        }
-        
-        .nav-links li a.active::after {
-            width: 80%;
+            color: var(--secondary-color);
         }
         
         .menu-toggle {
             display: none;
             font-size: 1.5rem;
-            color: #1a73e8;
+            color: var(--primary-color);
             cursor: pointer;
             padding: 0.5rem;
             border-radius: 6px;
             transition: all 0.3s ease;
+            z-index: 1001;
         }
         
         .menu-toggle:hover {
             background: rgba(26, 115, 232, 0.05);
-            color: #1557b0;
+            color: var(--secondary-color);
         }
         
-        @media (max-width: 768px) {
-            header {
-                height: 70px;
-            }
-            .logo-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.2rem;
-                margin-right: 0.5rem;
-            }
-            .logo {
-                font-size: 1.8rem;
-            }
-            .logo img {
-                width: 45px;
-                height: 40px;
-            }
+        @media (max-width: 1024px) {
             .logo-acronym {
                 font-size: 0.8rem;
-                max-width: 140px;
             }
             .founder-name {
                 font-size: 0.75rem;
             }
+            .nav-links li a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                min-height: 70px;
+            }
+            nav {
+                padding: 0.5rem 3%;
+            }
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+            }
+            .logo-container {
+                flex: 0 1 auto;
+            }
+            .logo img {
+                width: 50px;
+                height: 50px;
+            }
             .nav-links {
+                display: none;
                 position: fixed;
                 top: 70px;
                 left: 0;
                 width: 100%;
                 background: rgba(255, 255, 255, 0.98);
                 flex-direction: column;
-                align-items: center;
                 padding: 1rem 0;
-                gap: 0.4rem;
-                transform: translateY(-150%);
-                transition: transform 0.3s ease;
+                gap: 0.5rem;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
             }
-            .nav-links.active {
-                transform: translateY(0);
+            .nav-links.show {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+                text-align: center;
             }
             .nav-links li a {
-                font-size: 1rem;
-                padding: 0.3rem 0.6rem;
+                padding: 0.8rem 1rem;
+                display: block;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-container {
+                min-width: 150px;
+            }
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+            .logo-acronym {
+                font-size: 0.7rem;
+            }
+            .founder-name {
+                font-size: 0.65rem;
+            }
+            .nav-links li a {
+                font-size: 0.9rem;
+                padding: 0.7rem 1rem;
             }
         }
         
@@ -428,6 +418,9 @@
 <body>
     <header>
         <nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
             <div class="logo-container">
                 <div class="logo">
                     <img src="img/logo.jpg" alt="ONG Logo">
@@ -458,33 +451,35 @@
         <section class="actions-content">
             <div class="programs">
                 <div class="program-card animate-on-scroll">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Éducation">
+                    <img src="img/president.jpg" alt="Éducation">
                     <div class="program-content">
-                        <h2>Éducation pour Tous</h2>
-                        <p>Nous construisons des écoles, formons des enseignants et fournissons du matériel pédagogique dans les régions défavorisées.</p>
+                        <h2>Le social pour Tous</h2>
+                        <p> Pour accompagner ses actions de microfinance et de développement, FIER a pu intégrer des volets de formation et d'alphabétisation pour permettre aux bénéficiaires de mieux gérer leurs activités.</p>
                         <ul>
-                            <li>Construction de 10 écoles en 2023</li>
-                            <li>Formation de 500 enseignants</li>
-                            <li>Distribution de 10 000 kits scolaires</li>
+                            <li>Alphabétisation de plusieurs femmes en CI</li>
+                            <li>L'aide à la commercialisation des produits agricoles. </li>
+                            <li>L'appui à la diversification des cultures</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="program-card animate-on-scroll">
-                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Santé">
+                    <img src="img/dgaveclesgens.jpg" alt="Santé">
                     <div class="program-content">
-                        <h2>Santé et Bien-être</h2>
-                        <p>Nos programmes de santé visent à améliorer l'accès aux soins médicaux et à promouvoir des pratiques sanitaires saines.</p>
+                        <h2>Objectifs :</h2>
+                        <p>FIER s'emploie à participer au développement de la Côte d'Ivoire sur tous les plans, notamment en :</p>
                         <ul>
-                            <li>Cliniques mobiles dans 15 villages</li>
-                            <li>Campagnes de vaccination</li>
-                            <li>Formation en premiers secours</li>
+                            <li>Analysant les décisions des autorités ivoiriennes et faisant des propositions dans l'intérêt de la nation. Promouvant une vie citoyenne responsable. Promouvant le développement économique, social, culturel et politique de la
+                                Côte d'Ivoire. Promouvant une justice impartiale. Apportant une assistance juridique et judiciaire aux personnes défavorisées. Promouvant l'intégration sous-régionale. Promouvant la bonne gouvernance. Promouvant la cohésion
+                                sociale. Défendant et/ou représentant les victimes (personnes morales ou physiques) de voies de fait, d'abus ou d'infractions sur le territoire ivoirien. Défendant les intérêts des consommateurs (contre position dominante,
+                                publicité mensongère, pratiques commerciales illicites). Se constituant partie civile dans des affaires pénales (corruption, délit d'initié, détournement de deniers publics, abus de biens sociaux, nuisance environnementale/écologique).</li>
+
                         </ul>
                     </div>
                 </div>
 
-                <div class="program-card animate-on-scroll">
-                    <img src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Environnement">
+                <!-- <div class="program-card animate-on-scroll">
+                    <img src="img/dgaveclesgens.jpg" alt="Environnement">
                     <div class="program-content">
                         <h2>Protection de l'Environnement</h2>
                         <p>Nous nous engageons à protéger notre planète à travers des initiatives de conservation et de développement durable.</p>
@@ -494,10 +489,10 @@
                             <li>Éducation environnementale</li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
 
-            <section class="impact animate-on-scroll">
+            <!-- <section class="impact animate-on-scroll">
                 <h2>Notre Impact</h2>
                 <div class="impact-stats">
                     <div class="stat">
@@ -513,7 +508,7 @@
                         <p>Projets réalisés</p>
                     </div>
                 </div>
-            </section>
+            </section> -->
         </section>
     </main>
 
@@ -522,7 +517,7 @@
             <div class="footer-section">
                 <h3 class="company-name">FIER</h3>
                 <p>Email: contact@fier.org</p>
-                <p>Téléphone: +33 1 23 45 67 89</p>
+                <p>Téléphone: 27 22 42 16 19</p>
                 <p>Adresse: COCODY ANGRE (Cité ZINSOU)</p>
             </div>
             <div class="footer-section">
@@ -542,6 +537,47 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            // Fonction pour basculer le menu
+            function toggleMenu() {
+                console.log('Menu toggle clicked'); // Debug
+                navLinks.classList.toggle('show');
+            }
+
+            // Écouter le clic sur le bouton du menu
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation(); // Empêcher la propagation du clic
+                toggleMenu();
+            });
+
+            // Fermer le menu quand on clique sur un lien
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('show');
+                });
+            });
+
+            // Fermer le menu quand on clique en dehors
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('nav')) {
+                    navLinks.classList.remove('show');
+                }
+            });
+
+            // Fermer le menu quand on redimensionne la fenêtre au-dessus de 768px
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    navLinks.classList.remove('show');
+                }
+            });
+        });
+    </script>
 </body>
+
+</html>
 
 </html>

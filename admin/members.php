@@ -22,6 +22,7 @@ $membersPerPage = 20;
 
 // Récupérer le terme de recherche
 $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+$ageFilter = isset($_GET['age_filter']) ? $_GET['age_filter'] : '';
 
 // Récupérer le numéro de page actuel
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -32,10 +33,22 @@ $baseQuery = "FROM membres";
 $whereClause = "";
 $params = [];
 
-// Ajouter la condition de recherche si un terme est fourni
-if (!empty($searchTerm)) {
-    $whereClause = "WHERE nom LIKE :search OR prenom LIKE :search OR ville LIKE :search";
-    $params[':search'] = "%$searchTerm%";
+// Modifier la clause WHERE pour inclure le filtre d'âge
+if (!empty($searchTerm) || !empty($ageFilter)) {
+    $whereClause = "WHERE ";
+    $conditions = [];
+    
+    if (!empty($searchTerm)) {
+        $conditions[] = "(nom LIKE :search OR prenom LIKE :search OR ville LIKE :search)";
+        $params[':search'] = "%$searchTerm%";
+    }
+    
+    if (!empty($ageFilter)) {
+        $conditions[] = "TIMESTAMPDIFF(YEAR, date_de_naissance, CURDATE()) " . 
+                       ($ageFilter === 'majeur' ? ">= 18" : "< 18");
+    }
+    
+    $whereClause .= implode(" AND ", $conditions);
 }
 
 // Requête pour le nombre total de membres
@@ -338,6 +351,41 @@ $members = $stmt->fetchAll();
         .print-btn i {
             font-size: 1.2rem;
         }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .filter-btn i {
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -380,12 +428,22 @@ $members = $stmt->fetchAll();
                             Rechercher
                         </button>
                     </form>
-                    <?php if (!empty($searchTerm)): ?>
-                        <a href="pdf_generator.php?search=<?php echo urlencode($searchTerm); ?>" class="print-btn" target="_blank">
-                            <i class="fas fa-file-pdf"></i>
-                            Imprimer en PDF
+                    <div class="filter-buttons">
+                        <a href="?<?php echo http_build_query(array_merge($_GET, ['age_filter' => 'majeur'])); ?>" 
+                           class="filter-btn <?php echo $ageFilter === 'majeur' ? 'active' : ''; ?>">
+                            <i class="fas fa-user-check"></i> Majeurs
                         </a>
-                    <?php endif; ?>
+                        <a href="?<?php echo http_build_query(array_merge($_GET, ['age_filter' => 'mineur'])); ?>" 
+                           class="filter-btn <?php echo $ageFilter === 'mineur' ? 'active' : ''; ?>">
+                            <i class="fas fa-user"></i> Mineurs
+                        </a>
+                        <?php if (!empty($searchTerm) || !empty($ageFilter)): ?>
+                            <a href="pdf_generator.php?<?php echo http_build_query($_GET); ?>" class="print-btn" target="_blank">
+                                <i class="fas fa-file-pdf"></i>
+                                Imprimer en PDF
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
                 <div class="table-container">
@@ -400,8 +458,11 @@ $members = $stmt->fetchAll();
                                 <th>Fonction actuelle</th>
                                 <th>Statut</th>
                                 <th>Ville</th>
+                                <th>Date de naissance</th>
+                                <th>Situation matrimoniale</th>
                                 <th>Date d'inscription</th>
                                 <th>Actions</th>
+
                             </tr>
                         </thead>
                         <tbody id="membersTableBody">
@@ -427,6 +488,8 @@ $members = $stmt->fetchAll();
                                         </span>
                                     </td>
                                     <td><?php echo htmlspecialchars($member['ville']); ?></td>
+                                    <td><?php echo htmlspecialchars($member['date_de_naissance']); ?></td>
+                                    <td><?php echo htmlspecialchars($member['situation_matrimoniale']); ?></td>
                                     <td><?php echo date('d/m/Y H:i', strtotime($member['date_inscription'])); ?></td>
                                     <td>
                                         <button class="action-btn edit-btn" onclick="openEditMemberModal(<?php echo $member['id']; ?>)">

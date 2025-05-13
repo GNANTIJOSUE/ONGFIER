@@ -37,12 +37,14 @@ try {
     $email = filter_input(INPUT_POST, 'Email', FILTER_SANITIZE_EMAIL);
     $pays = filter_input(INPUT_POST, 'Pays', FILTER_SANITIZE_STRING);
     $ville = filter_input(INPUT_POST, 'Ville', FILTER_SANITIZE_STRING);
+    $date_de_naissance = filter_input(INPUT_POST, 'date_de_naissance', FILTER_SANITIZE_STRING);
+    $situation_matrimoniale = filter_input(INPUT_POST, 'situation_matrimoniale', FILTER_SANITIZE_STRING);
 
     // Log des données reçues
     error_log('Données reçues: ' . print_r($_POST, true));
 
     // Validation des champs requis
-    if (!$civilite || !$nom || !$prenom || !$niveau || !$diplome || !$specialite || !$fonction_actuelle || !$telephone || !$email || !$pays || !$ville) {
+    if (!$civilite || !$nom || !$prenom || !$niveau || !$diplome || !$specialite || !$fonction_actuelle || !$telephone || !$email || !$pays || !$ville || !$date_de_naissance || !$situation_matrimoniale) {
         throw new Exception('Tous les champs obligatoires doivent être remplis');
     }
 
@@ -62,10 +64,12 @@ try {
             INSERT INTO membres (
                 civilite, nom, prenom, niveau, diplome, specialite, 
                 fonction_actuelle, telephone, email, pays, ville,
+                date_de_naissance, situation_matrimoniale,
                 date_inscription, statut
             ) VALUES (
                 :civilite, :nom, :prenom, :niveau, :diplome, :specialite,
                 :fonction_actuelle, :telephone, :email, :pays, :ville,
+                :date_de_naissance, :situation_matrimoniale,
                 NOW(), 'en_attente'
             )
         ";
@@ -84,7 +88,9 @@ try {
             ':telephone' => $telephone,
             ':email' => $email,
             ':pays' => $pays,
-            ':ville' => $ville
+            ':ville' => $ville,
+            ':date_de_naissance' => $date_de_naissance,
+            ':situation_matrimoniale' => $situation_matrimoniale
         ]);
 
         if (!$result) {

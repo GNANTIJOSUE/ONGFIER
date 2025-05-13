@@ -3,6 +3,11 @@ require_once '../config.php';
 require_once 'auth.php';
 requireLogin();
 
+// Ajouter cette fonction helper au début du fichier, après les includes
+function safe_htmlspecialchars($value) {
+    return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+}
+
 // Récupérer les statistiques
 // Nombre total de membres
 $stmt = $pdo->query("SELECT COUNT(*) as total FROM membres");
@@ -797,6 +802,8 @@ if (isSuperAdmin()) {
                                 <th>Fonction actuelle</th>
                                 <th>Statut</th>
                                 <th>Ville</th>
+                                <th>Date de naissance</th>
+                                <th>Situation matrimoniale</th>
                                 <th>Date d'inscription</th>
                                 <th>Actions</th>
                             </tr>
@@ -832,20 +839,22 @@ if (isSuperAdmin()) {
                                 } else {
                                     while ($member = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         echo '<tr>';
-                                        echo '<td>' . htmlspecialchars($member['id']) . '</td>';
-                                        echo '<td>' . htmlspecialchars($member['nom']) . '</td>';
-                                        echo '<td>' . htmlspecialchars($member['prenom']) . '</td>';
-                                        echo '<td>' . htmlspecialchars($member['email']) . '</td>';
-                                        echo '<td>' . htmlspecialchars($member['telephone']) . '</td>';
-                                        echo '<td>' . htmlspecialchars($member['fonction_actuelle'] ?? 'Non spécifié') . '</td>';
-                                        echo '<td><span class="status-badge status-' . htmlspecialchars($member['statut']) . '">' . htmlspecialchars($member['statut']) . '</span></td>';
-                                        echo '<td>' . htmlspecialchars($member['ville']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['id']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['nom']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['prenom']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['email']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['telephone']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['fonction_actuelle'] ?? 'Non spécifié') . '</td>';
+                                        echo '<td><span class="status-badge status-' . safe_htmlspecialchars($member['statut']) . '">' . safe_htmlspecialchars($member['statut']) . '</span></td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['ville']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['date_de_naissance']) . '</td>';
+                                        echo '<td>' . safe_htmlspecialchars($member['situation_matrimoniale']) . '</td>';
                                         echo '<td>' . date('d/m/Y H:i', strtotime($member['date_inscription'])) . '</td>';
                                         echo '<td>
-                                            <button class="edit-btn" onclick="openEditMemberModal(' . $member['id'] . ')">
+                                            <button class="edit-btn" onclick="openEditMemberModal(' . safe_htmlspecialchars($member['id']) . ')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="delete-btn" data-member-id="' . $member['id'] . '">
+                                            <button class="delete-btn" data-member-id="' . safe_htmlspecialchars($member['id']) . '">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>';
@@ -853,9 +862,9 @@ if (isSuperAdmin()) {
                                     }
                                 }
                             } catch (PDOException $e) {
-                                echo '<tr><td colspan="9" class="error-message">Erreur PDO: ' . htmlspecialchars($e->getMessage()) . '</td></tr>';
+                                echo '<tr><td colspan="9" class="error-message">Erreur PDO: ' . safe_htmlspecialchars($e->getMessage()) . '</td></tr>';
                             } catch (Exception $e) {
-                                echo '<tr><td colspan="9" class="error-message">Erreur: ' . htmlspecialchars($e->getMessage()) . '</td></tr>';
+                                echo '<tr><td colspan="9" class="error-message">Erreur: ' . safe_htmlspecialchars($e->getMessage()) . '</td></tr>';
                             }
                             ?>
                         </tbody>
@@ -887,19 +896,19 @@ if (isSuperAdmin()) {
                                 $stmt = $pdo->query("SELECT * FROM admins ORDER BY created_at DESC");
                                 while ($admin = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                     echo '<tr>';
-                                    echo '<td>' . htmlspecialchars($admin['id']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($admin['name']) . '</td>';
-                                    echo '<td>' . htmlspecialchars($admin['email']) . '</td>';
-                                    echo '<td><span class="role-badge ' . ($admin['role'] === 'super_admin' ? 'super-admin' : 'admin') . '">';
-                                    echo $admin['role'] === 'super_admin' ? 'Super Admin' : 'Admin';
+                                    echo '<td>' . safe_htmlspecialchars($admin['id']) . '</td>';
+                                    echo '<td>' . safe_htmlspecialchars($admin['name']) . '</td>';
+                                    echo '<td>' . safe_htmlspecialchars($admin['email']) . '</td>';
+                                    echo '<td><span class="role-badge ' . safe_htmlspecialchars($admin['role'] === 'super_admin' ? 'super-admin' : 'admin') . '">';
+                                    echo safe_htmlspecialchars($admin['role'] === 'super_admin' ? 'Super Admin' : 'Admin');
                                     echo '</span></td>';
                                     echo '<td>' . date('d/m/Y H:i', strtotime($admin['created_at'])) . '</td>';
                                     echo '<td>';
-                                    if ($admin['role'] !== 'super_admin') {
-                                        echo '<button class="edit-btn" onclick="openEditAdminModal(' . $admin['id'] . ')">
+                                    if (safe_htmlspecialchars($admin['role']) !== 'super_admin') {
+                                        echo '<button class="edit-btn" onclick="openEditAdminModal(' . safe_htmlspecialchars($admin['id']) . ')">
                                                 <i class="fas fa-edit"></i>
                                               </button>';
-                                        echo '<button class="delete-btn" onclick="deleteAdmin(' . $admin['id'] . ', \'' . htmlspecialchars($admin['name']) . '\')">
+                                        echo '<button class="delete-btn" onclick="deleteAdmin(' . safe_htmlspecialchars($admin['id']) . ', \'' . safe_htmlspecialchars($admin['name']) . '\')">
                                                 <i class="fas fa-trash"></i>
                                               </button>';
                                     }
@@ -1043,6 +1052,21 @@ if (isSuperAdmin()) {
                 <label for="Ville" class="required-field">Ville/Commune habitée</label>
                 <input type="text" id="Ville" name="Ville" required placeholder="Entrez votre ville ou commune habitée">
             </div>
+            <div class="form-group">
+                <label for="date_de_naissance" class="required-field">Date de naissance</label>
+                <input type="date" id="date_de_naissance" name="date_de_naissance" required>
+            </div>
+            <div class="form-group">
+                <label for="situation_matrimoniale" class="required-field">Situation matrimoniale</label>
+                <select id="situation_matrimoniale" name="situation_matrimoniale" required>
+                    <option value="">CHOISIR</option>
+                    <option value="Célibataire">Célibataire</option>
+                    <option value="Marié(e)">Marié(e)</option>
+                    <option value="Divorcé(e)">Divorcé(e)</option>
+                    <option value="Veuf/Veuve">Veuf/Veuve</option>
+                    <option value="En concubinage">En concubinage</option>
+                </select>
+            </div>
             <div class="form-actions">
                 <button type="button" class="cancel-btn" onclick="closeAddMemberModal()">
                     Annuler
@@ -1164,6 +1188,23 @@ if (isSuperAdmin()) {
                 <div class="form-group">
                     <label for="edit_Ville" class="required-field">Ville/Commune habitée</label>
                     <input type="text" id="edit_Ville" name="Ville" required placeholder="Entrez votre ville ou commune habitée">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_date_de_naissance" class="required-field">Date de naissance</label>
+                    <input type="date" id="edit_date_de_naissance" name="date_de_naissance" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_situation_matrimoniale" class="required-field">Situation matrimoniale</label>
+                    <select id="edit_situation_matrimoniale" name="situation_matrimoniale" required>
+                        <option value="">CHOISIR</option>
+                        <option value="Célibataire">Célibataire</option>
+                        <option value="Marié(e)">Marié(e)</option>
+                        <option value="Divorcé(e)">Divorcé(e)</option>
+                        <option value="Veuf/Veuve">Veuf/Veuve</option>
+                        <option value="En concubinage">En concubinage</option>
+                    </select>
                 </div>
                 
                 <div class="form-actions">
@@ -1643,6 +1684,8 @@ if (isSuperAdmin()) {
                     document.getElementById('edit_Email').value = member.Email;
                     document.getElementById('edit_Pays').value = member.Pays;
                     document.getElementById('edit_Ville').value = member.Ville;
+                    document.getElementById('edit_date_de_naissance').value = member.date_de_naissance;
+                    document.getElementById('edit_situation_matrimoniale').value = member.situation_matrimoniale;
                     
                     document.getElementById('editMemberModal').style.display = 'block';
                 } else {
